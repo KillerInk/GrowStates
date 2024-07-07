@@ -8,12 +8,14 @@
 
         <variable
             name="plant"
-            type="com.growstats.api.fyta.objects.Plant" />
+            type="com.growstats.ui.PlantItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="#656565">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -33,20 +35,23 @@
                     android:id="@+id/textView_plantname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{plant.nickname}" />
+                    android:layout_marginLeft="3dp"
+                    android:text="@{plant.name}" />
 
                 <ImageView
                     android:id="@+id/imageView_plantthumb"
+                    loadImage="@{plant.thumbPath}"
                     android:layout_width="107dp"
                     android:layout_height="101dp"
-                    tools:srcCompat="@tools:sample/avatars"
-                    loadImage="@{plant.thumb_path}"/>
+                    android:layout_marginBottom="2dp"
+                    tools:srcCompat="@tools:sample/avatars" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
@@ -83,36 +88,42 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginRight="2dp"
                 android:layout_weight="0.3"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView_lightstats"
-                    setEnumToTextView="@{plant.light_status}"
+                    setEnumToTextView="@{plant.light_measure_status}"
+                    android:text="@{plant.lightString}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/textView_tempstatus"
-                    setEnumToTextView="@{plant.temperature_status}"
+                    setEnumToTextView="@{plant.temperature_measure_status}"
+                    android:text="@{plant.tempString}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/textView_moistureStatus"
-                    setEnumToTextView="@{plant.moisture_status}"
+                    setEnumToTextView="@{plant.moisture_measure_status}"
+                    android:text="@{plant.moistureString}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/textView_salinitystats"
-                    setEnumToTextView="@{plant.salinity_status}"
+                    setEnumToTextView="@{plant.salinity_measure_status}"
+                    android:text="@{plant.salinityString}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/textView_nutrienstats"
-                    setEnumToTextView="@{plant.nutrients_status}"
+                    setEnumToTextView="@{plant.nutrients_measure_status}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

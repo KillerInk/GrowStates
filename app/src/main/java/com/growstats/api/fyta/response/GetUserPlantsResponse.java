@@ -1,6 +1,9 @@
-package com.growstats.api.fyta.objects;
+package com.growstats.api.fyta.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.growstats.api.fyta.objects.plants.Garden;
+import com.growstats.api.fyta.objects.plants.Plant;
+import com.growstats.api.fyta.objects.plants.PlantOverview;
 
 import java.util.List;
 

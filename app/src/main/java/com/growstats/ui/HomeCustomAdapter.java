@@ -1,7 +1,6 @@
 package com.growstats.ui;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,7 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.growstats.R;
-import com.growstats.api.fyta.objects.Plant;
+import com.growstats.api.fyta.objects.plants.Plant;
 import com.growstats.databinding.RecylerviewItemPlantBinding;
 
 import java.util.ArrayList;
@@ -19,14 +18,14 @@ import javax.inject.Inject;
 
 public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.ViewHolder>
 {
-    private static List<Plant> plants = new ArrayList<>();;
+    private static List<PlantItem> plants = new ArrayList<>();;
 
     @Inject
     public HomeCustomAdapter()
     {
     }
 
-    public void setPlants(List<Plant> p)
+    public void setPlants(List<PlantItem> p)
     {
         plants.clear();
         plants.addAll(p);

@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         binding.buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (activeFragment != null)
+                if (activeFragment != null && activeFragment != homeFragment)
                     getSupportFragmentManager().beginTransaction().remove(activeFragment).commit();
                 getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer,homeFragment).commit();
                 activeFragment = homeFragment;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         binding.buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (activeFragment != null)
+                if (activeFragment != null && activeFragment != settingsFragment)
                     getSupportFragmentManager().beginTransaction().remove(activeFragment).commit();
                 getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer,settingsFragment).commit();
                 activeFragment = settingsFragment;

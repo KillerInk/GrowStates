@@ -1,7 +1,8 @@
 package com.growstats.api.fyta.api;
 
-import com.growstats.api.fyta.objects.AuthResponse;
-import com.growstats.api.fyta.objects.GetUserPlantsResponse;
+import com.growstats.api.fyta.response.AuthResponse;
+import com.growstats.api.fyta.response.GetPlantDetailsResponse;
+import com.growstats.api.fyta.response.GetUserPlantsResponse;
 import com.growstats.api.security.AuthenticationInterceptor;
 
 import okhttp3.ResponseBody;
@@ -9,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Url;
 
 public interface FytaApiService
@@ -277,6 +279,11 @@ Method: GET
 }
 ```
 
+*/
+    @Headers(AuthenticationInterceptor.ENDPOINT_SECURITY_TYPE_BEARER)
+    @GET("/api/user-plant/{id}")
+    Call<GetPlantDetailsResponse> getPlantDetails(@Path(value = "id",encoded = true)int id);
+    /*
 ## Get Measurements by User PlantID
 
 [https://web.fyta.de/api/user-plant/measurements/[plantID]](https://web.fyta.de/api/user-plant/measurements/%5BplantID%5D)

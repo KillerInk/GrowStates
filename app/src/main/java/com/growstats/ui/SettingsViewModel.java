@@ -1,16 +1,12 @@
 package com.growstats.ui;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;
 import com.growstats.api.ApiException;
 import com.growstats.controller.FytaController;
-import com.growstats.api.fyta.objects.GetUserPlantsResponse;
+import com.growstats.api.fyta.response.GetUserPlantsResponse;
 import com.growstats.controller.Settings;
-
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -42,7 +38,7 @@ public class SettingsViewModel extends ViewModel {
                 try {
                     GetUserPlantsResponse plantsResponse = fytaController.getRestClient().getUserPlants();
                     settings.saveSetting(Settings.KEY_APIKEY, apikey.get());
-                    homeCustomAdapter.setPlants(plantsResponse.plants);
+                    //homeCustomAdapter.setPlants(plantsResponse.plants);
                 }
                 catch (ApiException e)
                 {

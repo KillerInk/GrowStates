@@ -3,8 +3,9 @@ package com.growstats.api.fyta.impl.sync;
 import com.growstats.api.ServiceGenerator;
 import com.growstats.api.fyta.api.FytaApiService;
 import com.growstats.api.fyta.api.sync.FytaRestClient;
-import com.growstats.api.fyta.objects.AuthResponse;
-import com.growstats.api.fyta.objects.GetUserPlantsResponse;
+import com.growstats.api.fyta.response.AuthResponse;
+import com.growstats.api.fyta.response.GetPlantDetailsResponse;
+import com.growstats.api.fyta.response.GetUserPlantsResponse;
 
 import okhttp3.ResponseBody;
 
@@ -30,6 +31,11 @@ public class FytaRestClientImpl implements FytaRestClient {
     @Override
     public GetUserPlantsResponse getUserPlants() {
         return ServiceGenerator.executeSync(fytaApiService.getUserPlants());
+    }
+
+    @Override
+    public GetPlantDetailsResponse getPlantDetails(int id) {
+        return ServiceGenerator.executeSync(fytaApiService.getPlantDetails(id));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.growstats.api.fyta.objects;
+package com.growstats.api.fyta.objects.plants;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

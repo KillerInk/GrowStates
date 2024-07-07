@@ -1,9 +1,8 @@
 package com.growstats.api.fyta.api.sync;
 
-import com.growstats.api.fyta.objects.AuthResponse;
-import com.growstats.api.fyta.objects.GetUserPlantsResponse;
-
-import java.util.List;
+import com.growstats.api.fyta.response.AuthResponse;
+import com.growstats.api.fyta.response.GetPlantDetailsResponse;
+import com.growstats.api.fyta.response.GetUserPlantsResponse;
 
 import okhttp3.ResponseBody;
 
@@ -12,4 +11,5 @@ public interface FytaRestClient {
     ResponseBody imageResponse(String url);
     AuthResponse authUser(String user, String pw);
     GetUserPlantsResponse getUserPlants();
+    GetPlantDetailsResponse getPlantDetails(int id);
 }

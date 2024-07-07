@@ -1,9 +1,8 @@
-package com.growstats.api.fyta.objects;
+package com.growstats.api.fyta.objects.plants;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.growstats.api.fyta.enums.MeasurementStatus;
-
-import java.util.List;
 
 
 /*{
@@ -70,6 +69,7 @@ import java.util.List;
         "isDoingGreat": true
         }
 */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Plant {
     @JsonProperty("id")
     public int id;
