@@ -55,6 +55,7 @@ public class HomeViewModel extends ViewModel {
                         item.salinity_measure_status = p.salinity_status;
                         item.name = p.nickname;
                         item.thumbPath = p.thumb_path;
+                        item.sensor_mac = p.sensor.id;
                         if (p.sensor != null && p.sensor.has_sensor) {
                             GetPlantDetailsResponse r = fytaController.getRestClient().getPlantDetails(p.id);
                             item.light_unit = r.plant.measurements.light.unit;
@@ -65,6 +66,7 @@ public class HomeViewModel extends ViewModel {
                             item.moisture_val = r.plant.measurements.moisture.values.currentFormatted;
                             item.salinity_unit = r.plant.measurements.salinity.unit;
                             item.salinity_val = r.plant.measurements.salinity.values.currentFormatted;
+                            item.id = r.plant.id;
                         }
                         plantItemList.add(item);
 

@@ -1,6 +1,7 @@
 package com.growstats.ui;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,8 @@ import javax.inject.Inject;
 
 public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.ViewHolder>
 {
-    private static List<PlantItem> plants = new ArrayList<>();;
+    private static List<PlantItem> plants = new ArrayList<>();
+    private View.OnClickListener onClickListener;
 
     @Inject
     public HomeCustomAdapter()
@@ -39,7 +41,7 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
 
         RecylerviewItemPlantBinding binding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()),
                 R.layout.recylerview_item_plant, viewGroup, false);
-        //binding.framelayoutRecycleritem.setOnClickListener(onClickListener);
+        binding.plantItem.setOnClickListener(onClickListener);
         return new ViewHolder(binding);
     }
 
@@ -56,6 +58,15 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
             return plants.size();
     }
 
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public int getPlantId(int pos)
+    {
+        return plants.get(pos).id;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final RecylerviewItemPlantBinding plantBinding;
 
@@ -67,5 +78,7 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
         public RecylerviewItemPlantBinding getPlantBinding() {
             return plantBinding;
         }
+
+
     }
 }

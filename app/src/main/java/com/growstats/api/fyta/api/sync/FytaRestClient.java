@@ -1,7 +1,9 @@
 package com.growstats.api.fyta.api.sync;
 
+import com.growstats.api.fyta.enums.TimeRange;
 import com.growstats.api.fyta.response.AuthResponse;
 import com.growstats.api.fyta.response.GetPlantDetailsResponse;
+import com.growstats.api.fyta.response.GetPlantStats;
 import com.growstats.api.fyta.response.GetUserPlantsResponse;
 
 import okhttp3.ResponseBody;
@@ -12,4 +14,5 @@ public interface FytaRestClient {
     AuthResponse authUser(String user, String pw);
     GetUserPlantsResponse getUserPlants();
     GetPlantDetailsResponse getPlantDetails(int id);
+    GetPlantStats getPlantStats(int id, TimeRange range);
 }

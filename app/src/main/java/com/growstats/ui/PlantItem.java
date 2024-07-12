@@ -18,6 +18,8 @@ public class PlantItem {
     public String temperatureunit;
     public String salinity_unit;
     public String moisture_unit;
+    public String sensor_mac;
+    public int id;
 
     public String getTempString()
     {

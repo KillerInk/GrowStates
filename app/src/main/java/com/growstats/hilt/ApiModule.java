@@ -3,7 +3,10 @@ package com.growstats.hilt;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.fragment.app.FragmentController;
+
 import com.growstats.controller.FytaController;
+import com.growstats.controller.NavigationController;
 import com.growstats.controller.Settings;
 import com.growstats.ui.HomeCustomAdapter;
 
@@ -47,4 +50,6 @@ public class ApiModule {
     {
         return context.getCacheDir();
     }
+
+
 }

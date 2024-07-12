@@ -13,4 +13,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "GrowStats"
+include ':MPChartLib'
 include ':app'
+project(':MPChartLib').projectDir = new File(rootDir, 'MPAndroidChart/MPChartLib/')

@@ -12,6 +12,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/plant_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -58,31 +59,31 @@
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Licht:" />
+                    android:text="@string/light" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Temperatur:" />
+                    android:text="@string/temperatur" />
 
                 <TextView
                     android:id="@+id/textView7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Wasser:" />
+                    android:text="@string/moisture" />
 
                 <TextView
                     android:id="@+id/textView9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Salz:" />
+                    android:text="@string/salinity" />
 
                 <TextView
                     android:id="@+id/textView11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dünger" />
+                    android:text="@string/fertilisation" />
             </LinearLayout>
 
             <LinearLayout
@@ -96,30 +97,30 @@
                 <TextView
                     android:id="@+id/textView_lightstats"
                     setEnumToTextView="@{plant.light_measure_status}"
-                    android:text="@{plant.lightString}"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@{plant.lightString}" />
 
                 <TextView
                     android:id="@+id/textView_tempstatus"
                     setEnumToTextView="@{plant.temperature_measure_status}"
-                    android:text="@{plant.tempString}"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@{plant.tempString}" />
 
                 <TextView
                     android:id="@+id/textView_moistureStatus"
                     setEnumToTextView="@{plant.moisture_measure_status}"
-                    android:text="@{plant.moistureString}"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@{plant.moistureString}" />
 
                 <TextView
                     android:id="@+id/textView_salinitystats"
                     setEnumToTextView="@{plant.salinity_measure_status}"
-                    android:text="@{plant.salinityString}"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@{plant.salinityString}" />
 
                 <TextView
                     android:id="@+id/textView_nutrienstats"

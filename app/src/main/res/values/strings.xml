@@ -17,4 +17,9 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="light">Licht:</string>
+    <string name="temperatur">Temperatur:</string>
+    <string name="moisture">Feuchtigkeit:</string>
+    <string name="salinity">Nährstoffe:</string>
+    <string name="fertilisation">Dünger</string>
 </resources>

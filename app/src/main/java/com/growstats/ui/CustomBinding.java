@@ -12,26 +12,27 @@ public class CustomBinding {
     @BindingAdapter("setEnumToTextView")
     public static void setEnumToTextView(TextView view, MeasurementStatus status)
     {
-        view.setTextColor(Color.BLACK);
+        if(view == null || status == null)
+            return;
         switch (status)
         {
             case noData:
                 view.setTextColor(Color.WHITE);
                 break;
             case tooLow:
-                view.setBackgroundColor(Color.RED);
+                view.setTextColor(Color.RED);
                 break;
             case low:
-                view.setBackgroundColor(Color.YELLOW);
+                view.setTextColor(Color.YELLOW);
                 break;
             case perfect:
-                view.setBackgroundColor(Color.GREEN);
+                view.setTextColor(Color.GREEN);
                 break;
             case high:
-                view.setBackgroundColor(Color.YELLOW);
+                view.setTextColor(Color.YELLOW);
                 break;
             case tooHigh:
-                view.setBackgroundColor(Color.RED);
+                view.setTextColor(Color.RED);
                 break;
         }
     }

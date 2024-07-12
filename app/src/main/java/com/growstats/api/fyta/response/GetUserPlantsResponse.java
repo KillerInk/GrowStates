@@ -1,5 +1,6 @@
 package com.growstats.api.fyta.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.growstats.api.fyta.objects.plants.Garden;
 import com.growstats.api.fyta.objects.plants.Plant;
@@ -157,7 +158,7 @@ import java.util.List;
   "hubs_with_lost_connection": []
 }
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GetUserPlantsResponse {
     @JsonProperty("gardens")
     public List<Garden> gardens;
