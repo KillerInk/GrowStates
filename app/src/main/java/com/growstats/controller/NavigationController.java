@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.growstats.R;
 import com.growstats.ui.HomeFragment;
-import com.growstats.ui.PlantChartFragment;
+import com.growstats.ui.chart.PlantChartFragment;
 import com.growstats.ui.SettingsFragment;
 
 import javax.inject.Inject;
