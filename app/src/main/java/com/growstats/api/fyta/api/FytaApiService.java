@@ -1,6 +1,8 @@
 package com.growstats.api.fyta.api;
 
 import com.growstats.api.fyta.enums.TimeRange;
+import com.growstats.api.fyta.objects.LiveModeBody;
+import com.growstats.api.fyta.objects.LiveModeResponse;
 import com.growstats.api.fyta.request.PlantStatsRequestBody;
 import com.growstats.api.fyta.response.AuthResponse;
 import com.growstats.api.fyta.response.GetPlantDetailsResponse;
@@ -459,5 +461,12 @@ Field `temperature_unit` represents unit system.
 | 1 | Celsius |
 | 2 | Fahrenheit |
     */
+
+    //engineer part
+
+    @Headers(AuthenticationInterceptor.ENDPOINT_SECURITY_TYPE_BEARER)
+    @POST("/measurements/live-mode")
+    Call<LiveModeResponse> sendLiveMode(@Body LiveModeBody liveModeBody);
+
 
 }

@@ -1,7 +1,6 @@
-package com.growstats.ui;
+package com.growstats.ui.home;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.growstats.R;
+import com.growstats.controller.BtController;
 import com.growstats.controller.NavigationController;
 import com.growstats.databinding.FragmentHomeBinding;
 
@@ -32,6 +32,8 @@ public class HomeFragment extends Fragment {
     public HomeCustomAdapter customAdapter;
     @Inject
     NavigationController navigationController;
+    @Inject
+    BtController btController;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -42,6 +44,7 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         homeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        mViewModel.btController = btController;
         homeBinding.recylerviewPlants.setAdapter(customAdapter);
         homeBinding.recylerviewPlants.setLayoutManager(new LinearLayoutManager(getContext()));
         customAdapter.setOnClickListener(new View.OnClickListener() {

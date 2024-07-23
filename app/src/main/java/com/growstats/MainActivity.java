@@ -3,15 +3,11 @@ package com.growstats;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
+import com.growstats.controller.BtController;
 import com.growstats.controller.NavigationController;
 import com.growstats.databinding.ActivityMainBinding;
-import com.growstats.ui.HomeFragment;
-import com.growstats.ui.SettingsFragment;
 
 import javax.inject.Inject;
 
@@ -24,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     NavigationController navigationController;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,4 +43,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

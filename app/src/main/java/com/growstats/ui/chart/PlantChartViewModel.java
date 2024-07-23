@@ -59,7 +59,12 @@ public class PlantChartViewModel extends ViewModel {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+                if(fytaController.getRestClient() == null)
+                    return;
                 GetPlantStats stats = fytaController.getRestClient().getPlantStats(id, TimeRange.day);
+                if (stats == null)
+                    return;
                 List<Entry> moistureData = new ArrayList<>();
                 List<Entry> tempData = new ArrayList<>();
                 List<Entry> lightData = new ArrayList<>();

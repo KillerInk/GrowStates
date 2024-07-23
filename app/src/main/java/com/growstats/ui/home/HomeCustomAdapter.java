@@ -1,4 +1,4 @@
-package com.growstats.ui;
+package com.growstats.ui.home;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.growstats.R;
-import com.growstats.api.fyta.objects.plants.Plant;
 import com.growstats.databinding.RecylerviewItemPlantBinding;
 
 import java.util.ArrayList;
@@ -66,6 +65,10 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
     {
         return plants.get(pos).id;
     }
+    public String getPlantSensorMac(int pos)
+    {
+        return plants.get(pos).sensor_mac;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final RecylerviewItemPlantBinding plantBinding;
@@ -78,7 +81,5 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
         public RecylerviewItemPlantBinding getPlantBinding() {
             return plantBinding;
         }
-
-
     }
 }

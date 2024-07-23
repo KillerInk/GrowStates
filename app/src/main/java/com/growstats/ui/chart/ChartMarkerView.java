@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class ChartMarkerView extends MarkerView {
 
-    private final SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM HH:00", Locale.ENGLISH);
+    private final SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM HH:mm", Locale.ENGLISH);
     /**
      * Constructor. Sets up the MarkerView with a custom layout resource.
      *

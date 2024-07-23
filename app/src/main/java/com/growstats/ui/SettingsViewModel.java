@@ -7,6 +7,7 @@ import com.growstats.api.ApiException;
 import com.growstats.controller.FytaController;
 import com.growstats.api.fyta.response.GetUserPlantsResponse;
 import com.growstats.controller.Settings;
+import com.growstats.ui.home.HomeCustomAdapter;
 
 import javax.inject.Inject;
 

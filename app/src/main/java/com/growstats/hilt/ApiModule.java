@@ -1,14 +1,10 @@
 package com.growstats.hilt;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import androidx.fragment.app.FragmentController;
-
+import com.growstats.controller.BtController;
 import com.growstats.controller.FytaController;
-import com.growstats.controller.NavigationController;
-import com.growstats.controller.Settings;
-import com.growstats.ui.HomeCustomAdapter;
+import com.growstats.ui.home.HomeCustomAdapter;
 
 import java.io.File;
 
@@ -17,12 +13,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
-import dagger.hilt.android.components.ActivityComponent;
 import dagger.hilt.android.qualifiers.ActivityContext;
-import dagger.hilt.android.qualifiers.ApplicationContext;
-import dagger.hilt.android.scopes.ActivityScoped;
 import dagger.hilt.components.SingletonComponent;
-import kotlin.jvm.JvmSuppressWildcards;
 
 @Module
 @InstallIn(SingletonComponent.class)
@@ -50,6 +42,5 @@ public class ApiModule {
     {
         return context.getCacheDir();
     }
-
 
 }

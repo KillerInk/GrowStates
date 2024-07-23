@@ -1,16 +1,18 @@
-package com.growstats.ui;
+package com.growstats.ui.home;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 
 import androidx.lifecycle.ViewModel;
 
 import com.growstats.api.ApiException;
-import com.growstats.api.fyta.objects.plantdetails.PlantDetails;
 import com.growstats.api.fyta.objects.plants.Plant;
 import com.growstats.api.fyta.response.GetPlantDetailsResponse;
 import com.growstats.api.fyta.response.GetUserPlantsResponse;
+import com.growstats.controller.BtClient;
+import com.growstats.controller.BtController;
 import com.growstats.controller.FytaController;
 import com.growstats.controller.Settings;
 
@@ -22,11 +24,21 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends ViewModel implements LiveButtonClick, BtController.Events {
+
+    @Override
+    public void onClick(String mac) {
+        BtClient btClient = btController.getClient(mac);
+        if (btClient != null)
+            btClient.connect();
+    }
+
     private Settings settings;
     private HomeCustomAdapter homeCustomAdapter;
     private FytaController fytaController;
     private Handler handler = new Handler(Looper.getMainLooper());
+    public BtController btController;
+    private List<PlantItem> plantItemList;
 
     @Inject
     public HomeViewModel(FytaController fytaController, Settings settings, HomeCustomAdapter homeCustomAdapter) {
@@ -36,6 +48,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void onResume() {
+        btController.eventsListner = this::onFoundDevice;
         final String k = settings.getSetting(Settings.KEY_APIKEY);
         if (k.equals(""))
             return;
@@ -45,9 +58,10 @@ public class HomeViewModel extends ViewModel {
             public void run() {
                 try {
                     GetUserPlantsResponse plantsResponse = fytaController.getRestClient().getUserPlants();
-                    List<PlantItem> plantItemList = new ArrayList<>();
+                    plantItemList = new ArrayList<>();
                     for (Plant p : plantsResponse.plants) {
                         PlantItem item = new PlantItem();
+                        item.buttonClick = HomeViewModel.this::onClick;
                         item.light_measure_status = p.light_status;
                         item.temperature_measure_status = p.temperature_status;
                         item.moisture_measure_status = p.moisture_status;
@@ -72,6 +86,7 @@ public class HomeViewModel extends ViewModel {
 
                     }
                     handler.post(() -> homeCustomAdapter.setPlants(plantItemList));
+                    btController.find();
                 } catch (ApiException e) {
                     e.printStackTrace();
                     Log.i(HomeViewModel.class.getName().toString(), "" + e.toString());
@@ -79,5 +94,14 @@ public class HomeViewModel extends ViewModel {
 
             }
         }).start();
+    }
+
+    @Override
+    public void onFoundDevice(String mac) {
+        for (PlantItem p : plantItemList)
+        {
+            if (p.sensor_mac.equals(mac))
+                p.buttonVisibility.set(View.VISIBLE);
+        }
     }
 }

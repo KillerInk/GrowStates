@@ -1,6 +1,12 @@
-package com.growstats.ui;
+package com.growstats.ui.home;
+
+import android.view.View;
+
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
 
 import com.growstats.api.fyta.enums.MeasurementStatus;
+import com.growstats.controller.BeamData;
 
 public class PlantItem {
     public String name;
@@ -20,6 +26,7 @@ public class PlantItem {
     public String moisture_unit;
     public String sensor_mac;
     public int id;
+    public LiveButtonClick buttonClick;
 
     public String getTempString()
     {
@@ -36,5 +43,14 @@ public class PlantItem {
     public String getLightString()
     {
         return light_val + light_unit;
+    }
+
+    public ObservableInt buttonVisibility = new ObservableInt(View.GONE);
+    public ObservableField<BeamData> beamDataObservableField = new ObservableField<>();
+
+    public void onclick()
+    {
+        if(buttonClick != null)
+            buttonClick.onClick(sensor_mac);
     }
 }

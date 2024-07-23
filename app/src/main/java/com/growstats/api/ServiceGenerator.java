@@ -63,6 +63,7 @@ public class ServiceGenerator {
             if (response.isSuccessful()) {
                 return response.body();
             } else {
+                Log.e(ServiceGenerator.class.getName().toString(),response.toString());
                 ApiError apiError = getApiError(response);
                 throw new ApiException(apiError);
             }

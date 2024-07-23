@@ -84,9 +84,9 @@ public class PlantChartFragment extends Fragment {
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
         mViewModel.soil_moistureData.observe(getViewLifecycleOwner(), nameObserver);
 
-        createChart(fragmentBinding.chartMoisture,Color.BLUE);
-        createChart(fragmentBinding.chartTemperature,Color.RED);
-        createChart(fragmentBinding.chartLight,Color.YELLOW);
+        createChart(fragmentBinding.chartMoisture,Color.WHITE);
+        createChart(fragmentBinding.chartTemperature,Color.WHITE);
+        createChart(fragmentBinding.chartLight,Color.WHITE);
         return fragmentBinding.getRoot();
     }
 
@@ -130,8 +130,8 @@ public class PlantChartFragment extends Fragment {
        // get the legend (only possible after setting data)
        Legend ll = chart.getLegend();
        ll.setEnabled(true);
-       ll.setTextSize(7f);
-       ll.setFormSize(7f);
+       ll.setTextSize(10f);
+       ll.setFormSize(10f);
        ll.setFormToTextSpace(1f);
        ll.setForm(Legend.LegendForm.CIRCLE);
        ll.setWordWrapEnabled(true);
@@ -147,15 +147,16 @@ public class PlantChartFragment extends Fragment {
        XAxis xAxis = chart.getXAxis();
        //xAxis.setPosition(XAxis.XAxisPosition.TOP);
        xAxis.setAvoidFirstLastClipping(true);
-       xAxis.setTextSize(5f);
+       xAxis.setTextSize(10f);
        xAxis.setTextColor(Color.WHITE);
        xAxis.setCenterAxisLabels(false);
        xAxis.setDrawAxisLine(false);
        xAxis.setDrawGridLines(true);
        xAxis.setTextColor(Color.rgb(255, 192, 56));
 
-       xAxis.setGranularity(0.5f); // one hour
+       xAxis.setGranularity(6f); // one hour
        xAxis.setGranularityEnabled(true);
+       xAxis.setLabelCount(5,true);
        xAxis.setValueFormatter(new IAxisValueFormatter() {
            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM HH:00", Locale.ENGLISH);
            @Override
@@ -174,7 +175,7 @@ public class PlantChartFragment extends Fragment {
        //leftAxis.setAxisMinimum(0f);
        //leftAxis.setAxisMaximum(170f);
        leftAxis.setTextColor(Color.WHITE);
-       leftAxis.setTextSize(5f);
+       leftAxis.setTextSize(10f);
        leftAxis.setYOffset(-9f);
        leftAxis.setTextColor(Color.rgb(255, 192, 56));
 

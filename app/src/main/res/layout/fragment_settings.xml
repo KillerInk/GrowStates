@@ -38,7 +38,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:singleLine="true"
-            android:text="@{settingsmodel.apikey}"
+            android:text="@={settingsmodel.apikey}"
             app:layout_constraintBottom_toTopOf="@+id/button_test_and_save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
