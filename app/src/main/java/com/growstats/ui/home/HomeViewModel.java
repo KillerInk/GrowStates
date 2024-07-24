@@ -33,8 +33,10 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
     @Override
     public void onClick(String mac) {
         BtClient btClient = btController.getClient(mac);
-        if (btClient != null)
+        if (btClient != null && btClient.getState() == BtClient.BtClientState.disconnected)
             btClient.connect();
+        else if(btClient != null)
+            btClient.disconnect();
     }
 
     private Settings settings;
@@ -112,7 +114,11 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
 
     @Override
     public void onStateChanged(BtClient.BtClientState state, String mac) {
-
+        for (PlantItem p : plantItemList) {
+            if (p.sensor_mac.equals(mac)) {
+                p.setBtClientState(state);
+            }
+        }
     }
 
     @Override

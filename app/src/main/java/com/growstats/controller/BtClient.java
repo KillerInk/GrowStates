@@ -123,6 +123,13 @@ public class BtClient {
         this.eventsListner = events;
     }
 
+    private void setState(BtClientState state)
+    {
+        this.state = state;
+        if (eventsListner != null)
+            eventsListner.onStateChanged(state, mac);
+    }
+
 
     private BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
 
@@ -148,21 +155,21 @@ public class BtClient {
                     BtClient.this.gatt = gatt;
                     addCommand(new ChangeMtuCmd());
                     addCommand(new DiscoverServices());
-                    state = BtClientState.connected;
+                    setState(BtClientState.connected);
 
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Log.i(TAG, "Disconnected from " + deviceAddress);
                     gatt.close();
                     BtClient.this.gatt = null;
                     stream = false;
-                    state = BtClientState.disconnected;
+                    setState(BtClientState.disconnected);
                 }
             } else {
                 Log.e(TAG, "Failed to connect to " + deviceAddress + " status;" +  status + " newState:" + newState);
                 gatt.close();
                 BtClient.this.gatt = null;
                 stream = false;
-                state = BtClientState.disconnected;
+                setState(BtClientState.disconnected);
             }
         }
 
@@ -305,8 +312,10 @@ public class BtClient {
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
             Log.i(TAG, "onCharacteristicWrite");
-            if (!stream && characteristic.getUuid().equals(livedataEnableChar))
+            if (!stream && characteristic.getUuid().equals(livedataEnableChar)) {
                 stream = true;
+                setState(BtClientState.livemode);
+            }
             removeCommand();
         }
 
@@ -381,9 +390,19 @@ public class BtClient {
 
     @SuppressLint("MissingPermission")
     public void connect() {
-        state = BtClientState.connecting;
+        setState(BtClientState.connecting);
         device = btAdapter.getRemoteDevice(mac);
         device.connectGatt(context, false, gattCallback);
+    }
+
+    @SuppressLint("MissingPermission")
+    public void disconnect()
+    {
+        setState(BtClientState.disconneting);
+        if (gatt != null)
+            gatt.disconnect();
+        else
+            setState(BtClientState.disconnected);
     }
 
     @SuppressLint("MissingPermission")
@@ -402,5 +421,7 @@ public class BtClient {
         Log.i(TAG, sb.toString());
     }
 
-
+    public BtClientState getState() {
+        return state;
+    }
 }

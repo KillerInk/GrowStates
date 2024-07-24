@@ -1,5 +1,6 @@
 package com.growstats.ui.home;
 
+import android.graphics.Color;
 import android.view.View;
 
 import androidx.databinding.BaseObservable;
@@ -32,6 +33,7 @@ public class PlantItem extends BaseObservable {
     public String sensor_mac;
     public int id;
     public LiveButtonClick buttonClick;
+    private BtClient.BtClientState btClientState = BtClient.BtClientState.disconnected;
     public PlantItem()
     {
     }
@@ -90,5 +92,17 @@ public class PlantItem extends BaseObservable {
     @Bindable
     public String getTemperature_val() {
         return temperature_val;
+    }
+
+    public void setBtClientState(BtClient.BtClientState btClientState) {
+        if (this.btClientState == btClientState)
+            return;
+        this.btClientState = btClientState;
+        notifyPropertyChanged(BR.btClientState);
+    }
+
+    @Bindable
+    public BtClient.BtClientState getBtClientState() {
+        return btClientState;
     }
 }

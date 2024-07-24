@@ -84,9 +84,11 @@
                     android:id="@+id/imageButton_live"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/ic_media_play"
                     android:onClick="@{()->plant.onclick()}"
-                    android:visibility="@{plant.buttonVisibility}"/>
+                    android:visibility="@{plant.buttonVisibility}"
+                    setEnumToImageButton="@{plant.btClientState}"
+                    app:srcCompat="@android:drawable/ic_media_play"
+                   />
 
             </LinearLayout>
 
