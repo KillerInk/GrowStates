@@ -1,8 +1,8 @@
 package com.growstats.api.fyta.api.sync;
 
 import com.growstats.api.fyta.enums.TimeRange;
-import com.growstats.api.fyta.objects.LiveModeBody;
-import com.growstats.api.fyta.objects.LiveModeResponse;
+import com.growstats.api.fyta.request.LiveModeBody;
+import com.growstats.api.fyta.response.LiveModeResponse;
 import com.growstats.api.fyta.response.AuthResponse;
 import com.growstats.api.fyta.response.GetPlantDetailsResponse;
 import com.growstats.api.fyta.response.GetPlantStats;

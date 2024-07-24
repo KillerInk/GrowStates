@@ -1,8 +1,7 @@
 package com.growstats.api.fyta.api;
 
-import com.growstats.api.fyta.enums.TimeRange;
-import com.growstats.api.fyta.objects.LiveModeBody;
-import com.growstats.api.fyta.objects.LiveModeResponse;
+import com.growstats.api.fyta.request.LiveModeBody;
+import com.growstats.api.fyta.response.LiveModeResponse;
 import com.growstats.api.fyta.request.PlantStatsRequestBody;
 import com.growstats.api.fyta.response.AuthResponse;
 import com.growstats.api.fyta.response.GetPlantDetailsResponse;
@@ -14,7 +13,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;

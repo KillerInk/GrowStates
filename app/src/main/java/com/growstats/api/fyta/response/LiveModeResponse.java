@@ -1,4 +1,4 @@
-package com.growstats.api.fyta.objects;
+package com.growstats.api.fyta.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.growstats.api.fyta.objects.plantdetails.AbsoluteValues;

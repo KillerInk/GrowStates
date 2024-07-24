@@ -8,8 +8,8 @@ import android.view.View;
 import androidx.lifecycle.ViewModel;
 
 import com.growstats.api.ApiException;
-import com.growstats.api.fyta.objects.LiveModeBody;
-import com.growstats.api.fyta.objects.LiveModeResponse;
+import com.growstats.api.fyta.request.LiveModeBody;
+import com.growstats.api.fyta.response.LiveModeResponse;
 import com.growstats.api.fyta.objects.MeasurementData;
 import com.growstats.api.fyta.objects.plants.Plant;
 import com.growstats.api.fyta.response.GetPlantDetailsResponse;
