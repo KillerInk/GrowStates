@@ -1,6 +1,8 @@
 package com.growstats.api.fyta.api.sync;
 
 import com.growstats.api.fyta.enums.TimeRange;
+import com.growstats.api.fyta.objects.LiveModeBody;
+import com.growstats.api.fyta.objects.LiveModeResponse;
 import com.growstats.api.fyta.response.AuthResponse;
 import com.growstats.api.fyta.response.GetPlantDetailsResponse;
 import com.growstats.api.fyta.response.GetPlantStats;
@@ -15,4 +17,5 @@ public interface FytaRestClient {
     GetUserPlantsResponse getUserPlants();
     GetPlantDetailsResponse getPlantDetails(int id);
     GetPlantStats getPlantStats(int id, TimeRange range);
+    LiveModeResponse getLiveModeData(LiveModeBody body);
 }

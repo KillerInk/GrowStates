@@ -8,9 +8,13 @@ import android.view.View;
 import androidx.lifecycle.ViewModel;
 
 import com.growstats.api.ApiException;
+import com.growstats.api.fyta.objects.LiveModeBody;
+import com.growstats.api.fyta.objects.LiveModeResponse;
+import com.growstats.api.fyta.objects.MeasurementData;
 import com.growstats.api.fyta.objects.plants.Plant;
 import com.growstats.api.fyta.response.GetPlantDetailsResponse;
 import com.growstats.api.fyta.response.GetUserPlantsResponse;
+import com.growstats.controller.BeamData;
 import com.growstats.controller.BtClient;
 import com.growstats.controller.BtController;
 import com.growstats.controller.FytaController;
@@ -24,7 +28,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
-public class HomeViewModel extends ViewModel implements LiveButtonClick, BtController.Events {
+public class HomeViewModel extends ViewModel implements LiveButtonClick, BtController.Events, BtClient.Events {
 
     @Override
     public void onClick(String mac) {
@@ -73,13 +77,13 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
                         if (p.sensor != null && p.sensor.has_sensor) {
                             GetPlantDetailsResponse r = fytaController.getRestClient().getPlantDetails(p.id);
                             item.light_unit = r.plant.measurements.light.unit;
-                            item.light_val = r.plant.measurements.light.values.currentFormatted;
+                            item.setLight_val(r.plant.measurements.light.values.currentFormatted + item.light_unit);
                             item.temperatureunit = r.plant.measurements.temperature.unit;
-                            item.temperature_val = r.plant.measurements.temperature.values.currentFormatted;
+                            item.setTemperature_val(r.plant.measurements.temperature.values.currentFormatted + item.temperatureunit);
                             item.moisture_unit = r.plant.measurements.moisture.unit;
-                            item.moisture_val = r.plant.measurements.moisture.values.currentFormatted;
+                            item.setMoisture_val(r.plant.measurements.moisture.values.currentFormatted + item.moisture_unit);
                             item.salinity_unit = r.plant.measurements.salinity.unit;
-                            item.salinity_val = r.plant.measurements.salinity.values.currentFormatted;
+                            item.setSalinity_val(r.plant.measurements.salinity.values.currentFormatted + item.salinity_unit);
                             item.id = r.plant.id;
                         }
                         plantItemList.add(item);
@@ -97,11 +101,66 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
     }
 
     @Override
-    public void onFoundDevice(String mac) {
-        for (PlantItem p : plantItemList)
-        {
-            if (p.sensor_mac.equals(mac))
+    public void onFoundDevice(String mac, BtClient btClient) {
+        for (PlantItem p : plantItemList) {
+            if (p.sensor_mac.equals(mac)) {
                 p.buttonVisibility.set(View.VISIBLE);
+                btClient.setEventsListner(this);
+            }
         }
+    }
+
+    @Override
+    public void onStateChanged(BtClient.BtClientState state, String mac) {
+
+    }
+
+    @Override
+    public void onBeamData(BeamData data) {
+        LiveModeBody body = new LiveModeBody();
+        body.measurement = new MeasurementData();
+        body.measurement.battery = String.valueOf(data.battery);
+        body.measurement.light = String.valueOf(data.light);
+        body.measurement.blue_light = String.valueOf(data.lightBlue);
+        body.measurement.green_light = String.valueOf(data.lightGreen);
+        body.measurement.red_light = String.valueOf(data.lightRed);
+        body.measurement.white_light = String.valueOf(data.lightWhite);
+        body.measurement.nir_light = String.valueOf(data.lightNIR);
+        body.measurement.power_state = String.valueOf(data.powerState);
+        body.measurement.soil_moisture = String.valueOf(data.moisture);
+        body.measurement.temperature_bot = String.valueOf(data.temperatureBottom);
+        body.measurement.temperature_die = String.valueOf(data.temperatureDie);
+        body.measurement.temperature_top = String.valueOf(data.temperatureTop);
+        body.measurement.soil_fertility = String.valueOf(data.salinity);
+        body.measurement.sensor_id = data.id;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    LiveModeResponse response = fytaController.getRestClient().getLiveModeData(body);
+                    Log.i(HomeViewModel.class.getName(), "Success");
+                    for (PlantItem p : plantItemList) {
+                        if (p.sensor_mac.equals(data.id)) {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    p.setLight_val(response.measurements.light_formatted + p.light_unit);
+                                    p.setMoisture_val(response.measurements.soil_moisture_formatted + p.moisture_unit);
+                                    p.setTemperature_val(response.measurements.temperature_formatted + p.temperatureunit);
+                                    p.setSalinity_val(response.measurements.soil_moisture_formatted + p.salinity_unit);
+                                }
+                            });
+                        }
+
+                    }
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    Log.i(HomeViewModel.class.getName().toString(), "" + e.toString());
+                }
+
+            }
+        }).start();
+
     }
 }

@@ -20,13 +20,13 @@ public class FytaController {
         if (created && apiKey.equals(key))
             return;
         this.key = apiKey;
-        restClient = FytaFactory.newInstance(key,"",FytaFactory.FYTA_HTTPS).newRestClient();
+        restClient = FytaFactory.newInstance(key,"",FytaFactory.FYTA_INOFFICAL_HTTPS).newRestClient();
         created = true;
     }
 
     public FytaRestClient getRestClient() {
         if (restClient == null && key != null)
-            restClient = FytaFactory.newInstance(key,"",FytaFactory.FYTA_HTTPS).newRestClient();
+            restClient = FytaFactory.newInstance(key,"",FytaFactory.FYTA_INOFFICAL_HTTPS).newRestClient();
         return restClient;
     }
 }

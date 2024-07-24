@@ -39,6 +39,6 @@ public class WriteCharacteristicCmd extends AbstractCommand{
         }
         characteristic.setValue(value);
         boolean success = gatt.writeCharacteristic(characteristic);
-        Log.d(ReadCharacteristicsCmd.ReadCharacteristicCmd.class.getName(), "write characterstic for " + characteristic.getUuid().toString() + " success:" + success);
+        Log.d(ReadCharacteristicsCmd.class.getName(), "write characterstic for " + characteristic.getUuid().toString() + " success:" + success);
     }
 }

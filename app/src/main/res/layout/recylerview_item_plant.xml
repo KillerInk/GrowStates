@@ -103,28 +103,28 @@
                     setEnumToTextView="@{plant.light_measure_status}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{plant.lightString}" />
+                    android:text="@{plant.light_val}" />
 
                 <TextView
                     android:id="@+id/textView_tempstatus"
                     setEnumToTextView="@{plant.temperature_measure_status}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{plant.tempString}" />
+                    android:text="@{plant.temperature_val}" />
 
                 <TextView
                     android:id="@+id/textView_moistureStatus"
                     setEnumToTextView="@{plant.moisture_measure_status}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{plant.moistureString}" />
+                    android:text="@{plant.moisture_val}" />
 
                 <TextView
                     android:id="@+id/textView_salinitystats"
                     setEnumToTextView="@{plant.salinity_measure_status}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{plant.salinityString}" />
+                    android:text="@{plant.salinity_val}" />
 
             </LinearLayout>
 

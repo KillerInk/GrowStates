@@ -9,7 +9,8 @@ import com.growstats.api.fyta.impl.sync.FytaRestClientImpl;
 public class FytaFactory implements BasicFactory<FytaRestClient, FytaAsyncRestClient> {
 
 
-    public static final String FYTA_HTTPS = "https://web.fyta.de";
+    public static final String FYTA_HTTPS = "https://web.fyta.de/api";
+    public static final String FYTA_INOFFICAL_HTTPS = "https://api.prod.fyta-app.de";
     /**
      * API Key
      */

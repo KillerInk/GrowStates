@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Response;
@@ -48,7 +49,9 @@ public class ServiceGenerator {
         } else {
             // `adaptedClient` will use its own interceptor, but share thread pool etc with the 'parent' client
             AuthenticationInterceptor interceptor = new AuthenticationInterceptor(apiKey, secret);
-            OkHttpClient adaptedClient = sharedClient.newBuilder().addInterceptor(interceptor).build();
+            HttpLoggingInterceptor interceptor2 = new HttpLoggingInterceptor();
+            interceptor2.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient adaptedClient = sharedClient.newBuilder().addInterceptor(interceptor2).addInterceptor(interceptor).build();
             retrofitBuilder.client(adaptedClient);
         }
 
@@ -63,7 +66,8 @@ public class ServiceGenerator {
             if (response.isSuccessful()) {
                 return response.body();
             } else {
-                Log.e(ServiceGenerator.class.getName().toString(),response.toString());
+
+                Log.e(ServiceGenerator.class.getName().toString(),response.raw().toString() + " " + call.request().body().toString());
                 ApiError apiError = getApiError(response);
                 throw new ApiException(apiError);
             }

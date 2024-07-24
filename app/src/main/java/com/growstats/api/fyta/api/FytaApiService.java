@@ -60,7 +60,7 @@ The requests below require a Bearer authentication token.
 
 */
 
-    @POST("/api/auth/login")
+    @POST("/auth/login")
     Call<AuthResponse> auth(String user, String pw);
 
     /*
@@ -130,7 +130,7 @@ Response:
 ```
 */
     @Headers(AuthenticationInterceptor.ENDPOINT_SECURITY_TYPE_BEARER)
-    @GET("/api/user-plant")
+    @GET("/user-plant")
     Call<GetUserPlantsResponse> getUserPlants();
     /*
 
@@ -288,7 +288,7 @@ Method: GET
 
 */
     @Headers(AuthenticationInterceptor.ENDPOINT_SECURITY_TYPE_BEARER)
-    @GET("/api/user-plant/{id}")
+    @GET("/user-plant/{id}")
     Call<GetPlantDetailsResponse> getPlantDetails(@Path(value = "id",encoded = true)int id);
     /*
 ## Get Measurements by User PlantID
@@ -392,7 +392,7 @@ Response:
 
 */
     @Headers(AuthenticationInterceptor.ENDPOINT_SECURITY_TYPE_BEARER)
-    @POST("/api/user-plant/measurements/{id}")
+    @POST("/user-plant/measurements/{id}")
     Call<GetPlantStats> getPlantStats(@Path(value = "id",encoded = true)int id, @Body PlantStatsRequestBody body);
     /*
 ```
@@ -463,6 +463,241 @@ Field `temperature_unit` represents unit system.
     */
 
     //engineer part
+
+    /*
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/garden")
+    Object addGarden(@Body AddGardenBody addGardenBody, Continuation<? super Response<GardenList>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/hub-management")
+    Object addHub(@Body AddHubRequest addHubRequest, Continuation<? super Response<AddHubResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/sensor")
+    Object addSensor(@Body AddSensorBody addSensorBody, Continuation<? super Response<SensorResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/user-plant")
+    Object addUserPlant(@Body AddUserPlantModel addUserPlantModel, Continuation<? super Response<NewUserPlant>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("sensor/check-availability")
+    Object checkSensor(@Body MacAdress macAdress, Continuation<? super Response<PairableSensor>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/user-plant-events/dismiss-list")
+    Object deleteEvent(@Body CareTipDismissBody careTipDismissBody, Continuation<? super Response<Unit>> continuation);
+
+    @DELETE("/user-plant/peer/{peerId}")
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    Object deletePeers(@Path("peerId") int i, Continuation<? super Response<Unit>> continuation);
+
+    @DELETE("/user-plant/pending/{invitationId}")
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    Object deletePendingPeers(@Path("invitationId") int i, Continuation<? super Response<Unit>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/user-plant/delete/{plantId}")
+    Object deletePlant(@Path("plantId") int i, @Body ReasonId reasonId, Continuation<? super Response<DeletedResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/sensor/{sensorId}/delete")
+    Object deleteSensor(@Path("sensorId") String str, @Body DeleteSensorBody deleteSensorBody, Continuation<? super Response<BaseResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object dismissPlantCustomizeLegs(@Path("userPlantId") int i, @Body EditCustomizeToast editCustomizeToast, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object editDrainageHole(@Path("userPlantId") int i, @Body EditDrainageHole editDrainageHole, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/sensor/{sensorId}")
+    Object editLightFactorCur(@Path("sensorId") String str, @Body LightCalibrationCurr lightCalibrationCurr, Continuation<? super Response<EditBeamLegsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/sensor/{sensorId}")
+    Object editMoistureFactor(@Path("sensorId") String str, @Body MoistureCalibration moistureCalibration, Continuation<? super Response<EditBeamLegsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object editNotification(@Path("userPlantId") int i, @Body EditNotification editNotification, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object editPlantGarden(@Path("userPlantId") int i, @Body EditGarden editGarden, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object editPlantImage(@Path("userPlantId") int i, @Body EditPlant editPlant, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object editPlantName(@Path("userPlantId") int i, @Body EditNickName editNickName, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object editPlantSoil(@Path("userPlantId") int i, @Body EditPlantSoil editPlantSoil, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object editPot(@Path("userPlantId") int i, @Body EditPotSize editPotSize, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/sensor/{sensorId}")
+    Object editSensorLegs(@Path("sensorId") String str, @Body EditProbLength editProbLength, Continuation<? super Response<EditBeamLegsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user")
+    Object editUserAgeValidation(@Body EditUserAdultAgeValidation editUserAdultAgeValidation, Continuation<? super Response<Object>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/user-plant/care-tips")
+    Object getCareTips(Continuation<? super Response<CareAction>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/garden")
+    Object getGardenList(Continuation<? super Response<GardenList>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/hub-management/{hubId}")
+    Object getHub(@Path("hubId") String str, Continuation<? super Response<HubDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/hub-management/list")
+    Object getHubs(Continuation<? super Response<HubListResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("user-plant/measurements/{plantId}")
+    Object getMeasurements(@Path("plantId") int i, @Body SearchRequest searchRequest, Continuation<? super Response<PlantMeasurementResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("user-plant/measurement-details/{plantId}/{measurement}")
+    Object getMeasurementsDetails(@Path("plantId") int i, @Path("measurement") String str, Continuation<? super Response<PlantMeasurementDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("news")
+    Object getNews(@Query("screen") String str, @Query("page") int i, @Query("userPlantId") Integer num, @Query("count") int i2, @Query("filters") String str2, Continuation<? super Response<NewsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("news/filters")
+    Object getNewsFilter(Continuation<? super Response<FiltersModel>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("news")
+    Object getNewsFromPlant(@Query("screen") String str, @Query("userPlantId") int i, @Query("page") int i2, @Query("count") int i3, @Query("measurementType") String str2, Continuation<? super Response<NewsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/user-plant/peers")
+    Object getPeers(Continuation<? super Response<PeersModel>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/plants/{plantId}")
+    Object getPlantInfo(@Path("plantId") int i, Continuation<? super Response<PlantDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("user-plant/measurements/{userPlantId}")
+    Object getPlantMeasurements(@Path("userPlantId") String str, Continuation<? super Response<PlantMeasurementResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/user-plant")
+    Object getPlants(Continuation<? super Response<GardenListResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/user-plant/in-news")
+    Object getPlantsInNews(Continuation<? super Response<NewsPlantListResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/user-plant/{plantId}")
+    Object getPlantsWithId(@Path("plantId") int i, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("products")
+    Object getProducts(@Query("screen") String str, @Query("userPlantId") Integer num, @Query("diseaseId") Integer num2, @Query("page") int i, @Query("count") int i2, @Query("filters") String str2, Continuation<? super Response<ProductResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("products/filters")
+    Object getProductsFilter(Continuation<? super Response<FiltersModel>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("products")
+    Object getProductsFromDiseases(@Query("screen") String str, @Query("diseaseId") int i, @Query("page") int i2, @Query("count") int i3, Continuation<? super Response<ProductResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("products")
+    Object getProductsFromPlants(@Query("screen") String str, @Query("userPlantId") int i, @Query("page") int i2, @Query("count") int i3, @Query("measurementType") String str2, @Query("filters") String str3, Continuation<? super Response<ProductResponse>> continuation);
+
+    @GET("/sensor/list")
+    Object getSensor(Continuation<? super Response<SensorListResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/version/startup")
+    Object getStartUp(Continuation<? super Response<StartupResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("auth/login")
+    Object login(@Query("email") String str, @Query("password") String str2, Continuation<? super Response<LoginResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/sensor/move")
+    Object moveSensor(@Body MoveSensorBody moveSensorBody, Continuation<? super Response<DeletedResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/invite/accept")
+    Object postAcceptance(@Query("token") String str, Continuation<? super Response<Unit>> continuation);
+
+    @Headers({"Content-type:application/json"})
+    @POST("auth/refresh")
+    Call<TokenResponse> refresh(@Body RefreshTokenBody refreshTokenBody);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("user-plant/fertility/{userPlantId}")
+    Object reportFertility(@Path("userPlantId") String str, @Body ReportFertilityBody reportFertilityBody, Continuation<? super Response<ReportFertilityResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user")
+    Object searchPlants(@Body SearchPlant searchPlant, Continuation<? super Response<Object>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/feedback")
+    Object sendHelpMessage(@Body HelpCenterItem helpCenterItem, Continuation<? super Response<Unit>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("measurements/live-mode")
+    Object sendLiveMode(@Body LiveModeBody liveModeBody, Continuation<? super Response<LiveMeasurementResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @POST("/user-plant/shared")
+    Object sharingPlants(@Query("userPlantIdsToAdd") List<Integer> list, @Query("userPlantIdsToDelete") List<Integer> list2, @Query("peerId") int i, Continuation<? super Response<Unit>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object swapPlantSpecies(@Path("userPlantId") int i, @Body SwapPlantSpecies swapPlantSpecies, Continuation<? super Response<Object>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object updatePlantGrowStage(@Path("userPlantId") int i, @Body EditPlantGrowStage editPlantGrowStage, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object updatePlantLocation(@Path("userPlantId") int i, @Body EditPlantLocation editPlantLocation, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object updateSeedType(@Path("userPlantId") int i, @Body EditPlantSeedType editPlantSeedType, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @GET("/sensor/updates/{version}")
+    Object updateSensorVersion(@Path("version") String str, Continuation<? super Response<SensorUpdateResponse>> continuation);
+
+    @Headers({"Accept: application/json", "Content-type:application/json"})
+    @PUT("/user-plant/{userPlantId}")
+    Object updateToHarvestingDone(@Path("userPlantId") int i, @Body EditPlantHarvestingDone editPlantHarvestingDone, Continuation<? super Response<PlantUserDetailsResponse>> continuation);
+
+
+     */
 
     @Headers(AuthenticationInterceptor.ENDPOINT_SECURITY_TYPE_BEARER)
     @POST("/measurements/live-mode")

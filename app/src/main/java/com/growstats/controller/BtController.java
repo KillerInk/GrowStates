@@ -37,7 +37,7 @@ public class BtController {
 
     public interface Events
     {
-        void onFoundDevice(String mac);
+        void onFoundDevice(String mac,BtClient client);
     }
 
     public BtClient getClient(String mac)
@@ -103,10 +103,12 @@ public class BtController {
                 if(device != null && device.getName() != null && device.getName().equals("FYTA BEAM"))
                 {
                     BtClient client = new BtClient(btAdapter,device.getName(),device.getAddress(), mainActivity);
+
                     if (!btClientHashMap.containsKey(device.getAddress()))
                         btClientHashMap.put(device.getAddress(),client);
-                    if (eventsListner != null)
-                        eventsListner.onFoundDevice(device.getAddress());
+                    if (eventsListner != null) {
+                        eventsListner.onFoundDevice(device.getAddress(),client);
+                    }
                 }
                 if (device != null && device.getName() != null)
                     Log.i(BtController.class.getName().toString(), "Device: " + device.getName().toString());

@@ -24,7 +24,7 @@ import androidx.core.app.ActivityCompat;
 import com.growstats.controller.commands.BluetoothCommand;
 import com.growstats.controller.commands.ChangeMtuCmd;
 import com.growstats.controller.commands.DiscoverServices;
-import com.growstats.controller.commands.EnableNotificationsCmd;
+import com.growstats.controller.commands.ReadCharacteristicsCmd;
 import com.growstats.controller.commands.WriteCharacteristicCmd;
 import com.growstats.controller.commands.WriteDescriptorCmd;
 
@@ -46,6 +46,21 @@ import kotlin.UByte;
 
 
 public class BtClient {
+
+    public enum BtClientState
+    {
+        disconnected,
+        disconneting,
+        connecting,
+        connected,
+        livemode,
+    }
+
+    public interface Events
+    {
+        void onStateChanged(BtClientState state,String mac);
+        void onBeamData(BeamData data);
+    }
 
     public void addCommand(BluetoothCommand command) {
         Log.i(TAG, "Add Command");
@@ -100,6 +115,13 @@ public class BtClient {
     Semaphore mCommandLock = new Semaphore(1, true);
 
     private boolean stream = false;
+    private BtClientState state;
+    private Events eventsListner;
+
+    public void setEventsListner(Events events)
+    {
+        this.eventsListner = events;
+    }
 
 
     private BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
@@ -126,18 +148,21 @@ public class BtClient {
                     BtClient.this.gatt = gatt;
                     addCommand(new ChangeMtuCmd());
                     addCommand(new DiscoverServices());
+                    state = BtClientState.connected;
 
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Log.i(TAG, "Disconnected from " + deviceAddress);
                     gatt.close();
                     BtClient.this.gatt = null;
                     stream = false;
+                    state = BtClientState.disconnected;
                 }
             } else {
                 Log.e(TAG, "Failed to connect to " + deviceAddress + " status;" +  status + " newState:" + newState);
                 gatt.close();
                 BtClient.this.gatt = null;
                 stream = false;
+                state = BtClientState.disconnected;
             }
         }
 
@@ -209,37 +234,18 @@ public class BtClient {
             printServices(services);
             removeCommand();
             BluetoothGattCharacteristic ch = gatt.getService(BtClient.serviceUUID).getCharacteristic(BtClient.liveModeCharacteristicUUID);
+
+            //singel request to live mode characteristic
+            //addCommand(new ReadCharacteristicsCmd(ch));
+
+            //subscibe to live mode notify
             gatt.setCharacteristicNotification(ch,true);
             addCommand(new WriteDescriptorCmd(ch.getDescriptor(notifyDescriptorUUID),BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE));
             addCommand(new WriteCharacteristicCmd(livedataEnableService,livedataEnableChar,enableLiveData));
+            state = BtClientState.livemode;
         }
 
-        /*
-            byte tempbot = UByte.bytes(bArr[0]);
-            byte temptop = UByte.bytes(bArr[1]);
-            byte tempdie = UByte.bytes(bArr[2]);
-            byte tempmin = UByte.bytes(bArr[3]);
-            byte tempmax = UByte.bytes(bArr[4]);
-            byte salinity = UByte.bytes(bArr[5]);
-            byte moisture = UByte.bytes(bArr[6]);
-            byte light = UByte.bytes(bArr[7]);
-            byte[] copyOfRange = ArraysKt.copyOfRange(bArr, 8, 10);
-            byte[] copyOfRange2 = ArraysKt.copyOfRange(bArr, 10, 12);
-            byte[] copyOfRange3 = ArraysKt.copyOfRange(bArr, 12, 14);
-            byte[] copyOfRange4 = ArraysKt.copyOfRange(bArr, 14, 16);
-            byte[] copyOfRange5 = ArraysKt.copyOfRange(bArr, 16, 18);
-            byte battery = UByte.bytes(bArr[18]);
-            byte powerstate = UByte.bytes(bArr[19]);
-            int lightWhite = m9485getUIntTwoAtxfHcF5w(copyOfRange, 0);
-            int lightRed = m9485getUIntTwoAtxfHcF5w(copyOfRange2, 0);
-            int lightGreen = m9485getUIntTwoAtxfHcF5w(copyOfRange3, 0);
-            int lightBlue = m9485getUIntTwoAtxfHcF5w(copyOfRange4, 0);
-            int lightNir = m9485getUIntTwoAtxfHcF5w(copyOfRange5, 0);
 
-         */
-        //  [126, 124, 0, 70, -84, -126, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -49, 32]
-        //   7E 7C 00 46 AC 82 00 00 00 00 00 00 00 00 00 00 CF 20
-        //  84,82,00,69,BF,1F,4A,46,19,E4,29,65,10,1B,02,41,C9,20,
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
@@ -247,13 +253,20 @@ public class BtClient {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 if (characteristic.getUuid().equals(liveModeCharacteristicUUID)) {
                     byte[] data = characteristic.getValue();
-                    BeamData b = new BeamData(data);
-                    Log.i(TAG, Arrays.toString(data));
-                    byteArrayToHexString(data);
+                    processData(data);
                 }
             }
             if (!stream)
                 removeCommand();
+        }
+
+        private void processData(byte[] bytes)
+        {
+            Log.i(TAG, Arrays.toString(bytes) + " Size:"+bytes.length);
+            byteArrayToHexString(bytes);
+            BeamData b = new BeamData(bytes,mac);
+            if (eventsListner != null)
+                handler.post(()->eventsListner.onBeamData(b));
         }
 
         //dont USE IT!
@@ -267,8 +280,7 @@ public class BtClient {
                     Log.i(TAG, Arrays.toString(data));
                     byteArrayToHexString(data);
                 }
-            }
-            dequeueCommand();*/
+            }*/
             removeCommand();
         }
 
@@ -276,13 +288,7 @@ public class BtClient {
         public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             super.onDescriptorRead(gatt, descriptor, status);
             Log.i(TAG, "onDescriptorRead");
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                    byte[] data = descriptor.getValue();
-                    BeamData b = new BeamData(data);
-                    Log.i(TAG, Arrays.toString(data));
-                    byteArrayToHexString(data);
-            }
-            removeCommand();
+
         }
 
         @Override
@@ -291,10 +297,7 @@ public class BtClient {
             Log.i(TAG, "onCharacteristicChanged");
             if (characteristic.getUuid().equals(liveModeCharacteristicUUID)) {
                 byte[] data = characteristic.getValue();
-                BeamData b = new BeamData(data);
-                Log.i(TAG,b.toString());
-                Log.i(TAG, Arrays.toString(data));
-                byteArrayToHexString(data);
+                processData(data);
             }
         }
 
@@ -313,9 +316,7 @@ public class BtClient {
             Log.i(TAG, "onCharacteristicChanged");
             if (characteristic.getUuid().equals(liveModeCharacteristicUUID)) {
                 byte[] data = characteristic.getValue();
-                BeamData b = new BeamData(data);
-                Log.i(TAG, Arrays.toString(data));
-                byteArrayToHexString(data);
+                processData(data);
             }
         }
 
@@ -380,6 +381,7 @@ public class BtClient {
 
     @SuppressLint("MissingPermission")
     public void connect() {
+        state = BtClientState.connecting;
         device = btAdapter.getRemoteDevice(mac);
         device.connectGatt(context, false, gattCallback);
     }
