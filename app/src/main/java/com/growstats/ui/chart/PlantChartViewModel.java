@@ -20,11 +20,17 @@ import com.growstats.api.fyta.response.GetPlantStats;
 import com.growstats.controller.FytaController;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 
@@ -48,6 +54,9 @@ public class PlantChartViewModel extends ViewModel {
     public int getMinAcceptLight;
     public int getMaxAcceptLight;
 
+
+    SimpleDateFormat mFormatUTC = new SimpleDateFormat("yyyy-MM-dd HH", Locale.ENGLISH);
+
     @Inject
     public PlantChartViewModel(FytaController fytaController)
     {
@@ -68,7 +77,8 @@ public class PlantChartViewModel extends ViewModel {
                 List<Entry> moistureData = new ArrayList<>();
                 List<Entry> tempData = new ArrayList<>();
                 List<Entry> lightData = new ArrayList<>();
-                SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd HH", Locale.ENGLISH);
+
+
                 getMaxGoodMoisture = stats.thresholds.moisture_max_good;
                 getMinGoodMoisture = stats.thresholds.moisture_min_good;
                 getMaxGoodTemperature = stats.thresholds.temperature_max_good;
@@ -84,7 +94,11 @@ public class PlantChartViewModel extends ViewModel {
                 for(Measurement m :stats.measurements)
                 {
                     try {
-                        Date d = mFormat.parse(m.date_utc);
+                        //LocalDateTime time = LocalDateTime.parse(m.date_utc,formatter);
+                        //ZonedDateTime ztime = time.atZone(ZoneId.systemDefault());
+                        //long t = ztime.toEpochSecond();
+                        mFormatUTC.setTimeZone(TimeZone.getTimeZone("UTC"));
+                        Date d = mFormatUTC.parse(m.date_utc);
                         long t = d.getTime();
 
                         Entry e = new Entry(t,m.soil_moisture);

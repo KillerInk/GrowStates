@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.growstats.R;
+import com.growstats.api.fyta.objects.plants.Plant;
 import com.growstats.databinding.RecylerviewItemPlantBinding;
 
 import java.util.ArrayList;
@@ -26,11 +27,31 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
     {
     }
 
+
     public void setPlants(List<PlantItem> p)
     {
-        plants.clear();
-        plants.addAll(p);
-        notifyItemRangeChanged(0, plants.size());
+        if(plants.size() == 0) {
+            plants.clear();
+            plants.addAll(p);
+            notifyItemRangeChanged(0, plants.size());
+        }
+        for (PlantItem pl : p)
+        {
+            boolean found = false;
+            for (PlantItem addedP : plants)
+            {
+                if(addedP.sensor_mac.equals(pl.sensor_mac))
+                {
+                    addedP.copyFrom(pl);
+                    found = true;
+                }
+            }
+            if(!found) {
+                plants.add(pl);
+                notifyItemInserted(plants.size());
+            }
+        }
+
     }
 
     @NonNull
@@ -65,6 +86,12 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
     {
         return plants.get(pos).id;
     }
+
+    public String getPlantName(int pos)
+    {
+        return plants.get(pos).name;
+    }
+
     public String getPlantSensorMac(int pos)
     {
         return plants.get(pos).sensor_mac;

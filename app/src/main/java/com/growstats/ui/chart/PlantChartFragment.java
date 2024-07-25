@@ -32,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -40,6 +42,7 @@ public class PlantChartFragment extends Fragment {
     private PlantChartViewModel mViewModel;
     private FragmentPlantChartBinding fragmentBinding;
     public int id;
+    public String name;
 
     public static PlantChartFragment newInstance() {
         return new PlantChartFragment();
@@ -51,6 +54,8 @@ public class PlantChartFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(PlantChartViewModel.class);
         fragmentBinding =  DataBindingUtil.inflate(inflater, R.layout.fragment_plant_chart, container, false);
         // Create the observer which updates the UI.
+        fragmentBinding.textViewPlantName.setText(name);
+        fragmentBinding.textViewPlantName.setTextColor(Color.GREEN);
         final Observer<ArrayList<ILineDataSet>> nameObserver = new Observer<ArrayList<ILineDataSet>>() {
             @Override
             public void onChanged(ArrayList<ILineDataSet> data) {
@@ -103,6 +108,7 @@ public class PlantChartFragment extends Fragment {
         LimitLine limitLineMax = new LimitLine(val,""+val);
         limitLineMax.setLineColor(color);
         limitLineMax.setLineWidth(0.5f);
+        limitLineMax.setTextColor(Color.WHITE);
         limitLineMax.enableDashedLine(5f,8f,0);
         return limitLineMax;
     }
@@ -158,7 +164,7 @@ public class PlantChartFragment extends Fragment {
        xAxis.setGranularityEnabled(true);
        xAxis.setLabelCount(5,true);
        xAxis.setValueFormatter(new IAxisValueFormatter() {
-           private final SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM HH:00", Locale.ENGLISH);
+           private final SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM HH:mm", Locale.ENGLISH);
            @Override
            public String getFormattedValue(float value, AxisBase axis) {
                return mFormat.format(new Date((long) value));

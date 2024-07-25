@@ -115,7 +115,7 @@ public class BtClient {
     Semaphore mCommandLock = new Semaphore(1, true);
 
     private boolean stream = false;
-    private BtClientState state;
+    private BtClientState state = BtClientState.disconnected;
     private Events eventsListner;
 
     public void setEventsListner(Events events)

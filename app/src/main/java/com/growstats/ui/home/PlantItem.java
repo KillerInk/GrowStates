@@ -105,4 +105,12 @@ public class PlantItem extends BaseObservable {
     public BtClient.BtClientState getBtClientState() {
         return btClientState;
     }
+
+    public void copyFrom(PlantItem plantItem)
+    {
+        setTemperature_val(plantItem.getTemperature_val());
+        setSalinity_val(plantItem.getSalinity_val());
+        setMoisture_val(plantItem.moisture_val);
+        setLight_val(plantItem.getLight_val());
+    }
 }

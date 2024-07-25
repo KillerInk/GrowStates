@@ -62,14 +62,16 @@ public class NavigationController {
         }
     }
 
-    public void showStats(int id)
+    public void showStats(int id,String name)
     {
         if (activeFragment != plantChartFragment) {
+            plantChartFragment.id = id;
+            plantChartFragment.name = name;
             if (activeFragment != null)
                 fragmentManager.beginTransaction().replace(R.id.fragmentContainer,plantChartFragment).commit();
             else
                 fragmentManager.beginTransaction().add(R.id.fragmentContainer, plantChartFragment).commit();
-            plantChartFragment.id = id;
+
             activeFragment = plantChartFragment;
         }
     }

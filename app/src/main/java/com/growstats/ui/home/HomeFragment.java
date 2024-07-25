@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 int pos = homeBinding.recylerviewPlants.getChildLayoutPosition(view);
                 int id = customAdapter.getPlantId(pos);
-                navigationController.showStats(id);
+                navigationController.showStats(id,customAdapter.getPlantName(pos));
             }
         });
         return homeBinding.getRoot();
