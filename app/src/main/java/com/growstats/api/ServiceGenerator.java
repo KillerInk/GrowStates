@@ -66,8 +66,8 @@ public class ServiceGenerator {
             if (response.isSuccessful()) {
                 return response.body();
             } else {
-
-                Log.e(ServiceGenerator.class.getName().toString(),response.raw().toString() + " " + call.request().body().toString());
+                if(response.raw() != null && call.request() != null && call.request().body() != null)
+                    Log.e(ServiceGenerator.class.getName().toString(),response.raw().toString() + " " + call.request().body().toString());
                 ApiError apiError = getApiError(response);
                 throw new ApiException(apiError);
             }

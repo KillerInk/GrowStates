@@ -13,6 +13,7 @@ public class ApiError {
     private String msg;
 
     private String message;
+    public String statusCode;
 
     public int getCode() {
         return code;

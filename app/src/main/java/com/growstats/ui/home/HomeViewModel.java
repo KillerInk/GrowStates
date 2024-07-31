@@ -154,7 +154,7 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
                                     p.setLight_val(response.measurements.light_formatted + p.light_unit);
                                     p.setMoisture_val(response.measurements.soil_moisture_formatted + p.moisture_unit);
                                     p.setTemperature_val(response.measurements.temperature_formatted + p.temperatureunit);
-                                    p.setSalinity_val(response.measurements.soil_moisture_formatted + p.salinity_unit);
+                                    p.setSalinity_val(response.measurements.soil_fertility + p.salinity_unit);
                                 }
                             });
                         }

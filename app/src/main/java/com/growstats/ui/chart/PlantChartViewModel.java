@@ -53,9 +53,10 @@ public class PlantChartViewModel extends ViewModel {
     public int getMaxGoodLight;
     public int getMinAcceptLight;
     public int getMaxAcceptLight;
+    public TimeRange activeRange = TimeRange.day;
 
 
-    SimpleDateFormat mFormatUTC = new SimpleDateFormat("yyyy-MM-dd HH", Locale.ENGLISH);
+    SimpleDateFormat mFormatUTC = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
 
     @Inject
     public PlantChartViewModel(FytaController fytaController)
@@ -63,15 +64,16 @@ public class PlantChartViewModel extends ViewModel {
         this.fytaController = fytaController;
     }
 
-    public void getPlantStats(int id)
+    public void getPlantStats(int id, TimeRange range)
     {
+        activeRange = range;
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 if(fytaController.getRestClient() == null)
                     return;
-                GetPlantStats stats = fytaController.getRestClient().getPlantStats(id, TimeRange.day);
+                GetPlantStats stats = fytaController.getRestClient().getPlantStats(id, activeRange);
                 if (stats == null)
                     return;
                 List<Entry> moistureData = new ArrayList<>();
@@ -156,6 +158,8 @@ public class PlantChartViewModel extends ViewModel {
     }
 
     public void onResume(int id) {
-        getPlantStats(id);
+        getPlantStats(id, activeRange);
     }
+
+
 }

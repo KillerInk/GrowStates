@@ -26,7 +26,9 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.growstats.R;
+import com.growstats.api.fyta.enums.TimeRange;
 import com.growstats.databinding.FragmentPlantChartBinding;
+import com.growstats.generated.callback.OnClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,8 +43,8 @@ public class PlantChartFragment extends Fragment {
 
     private PlantChartViewModel mViewModel;
     private FragmentPlantChartBinding fragmentBinding;
-    public int id;
-    public String name;
+    private int id;
+    private String name;
 
     public static PlantChartFragment newInstance() {
         return new PlantChartFragment();
@@ -56,6 +58,26 @@ public class PlantChartFragment extends Fragment {
         // Create the observer which updates the UI.
         fragmentBinding.textViewPlantName.setText(name);
         fragmentBinding.textViewPlantName.setTextColor(Color.GREEN);
+
+        fragmentBinding.buttonDayly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.getPlantStats(id,TimeRange.day);
+            }
+        });
+        fragmentBinding.buttonWeekly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.getPlantStats(id,TimeRange.week);
+            }
+        });
+        fragmentBinding.buttonMonthly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.getPlantStats(id,TimeRange.month);
+            }
+        });
+
         final Observer<ArrayList<ILineDataSet>> nameObserver = new Observer<ArrayList<ILineDataSet>>() {
             @Override
             public void onChanged(ArrayList<ILineDataSet> data) {
@@ -200,5 +222,14 @@ public class PlantChartFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mViewModel.onResume(id);
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

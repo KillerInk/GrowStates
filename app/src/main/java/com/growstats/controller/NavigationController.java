@@ -65,8 +65,8 @@ public class NavigationController {
     public void showStats(int id,String name)
     {
         if (activeFragment != plantChartFragment) {
-            plantChartFragment.id = id;
-            plantChartFragment.name = name;
+            plantChartFragment.setId(id);
+            plantChartFragment.setName(name);
             if (activeFragment != null)
                 fragmentManager.beginTransaction().replace(R.id.fragmentContainer,plantChartFragment).commit();
             else
