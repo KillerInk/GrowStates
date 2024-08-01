@@ -14,6 +14,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.EntryXComparator;
+import com.growstats.api.ApiCallBack;
 import com.growstats.api.fyta.enums.TimeRange;
 import com.growstats.api.fyta.objects.plantstats.Measurement;
 import com.growstats.api.fyta.response.GetPlantStats;
@@ -67,78 +68,63 @@ public class PlantChartViewModel extends ViewModel {
     public void getPlantStats(int id, TimeRange range)
     {
         activeRange = range;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                if(fytaController.getRestClient() == null)
-                    return;
-                GetPlantStats stats = fytaController.getRestClient().getPlantStats(id, activeRange);
-                if (stats == null)
-                    return;
-                List<Entry> moistureData = new ArrayList<>();
-                List<Entry> tempData = new ArrayList<>();
-                List<Entry> lightData = new ArrayList<>();
+        fytaController.getAsyncRestClient().getPlantStats(id, activeRange, stats -> {
+            if (stats == null)
+                return;
+            List<Entry> moistureData = new ArrayList<>();
+            List<Entry> tempData = new ArrayList<>();
+            List<Entry> lightData = new ArrayList<>();
 
 
-                getMaxGoodMoisture = stats.thresholds.moisture_max_good;
-                getMinGoodMoisture = stats.thresholds.moisture_min_good;
-                getMaxGoodTemperature = stats.thresholds.temperature_max_good;
-                getMinGoodTemperature = stats.thresholds.temperature_min_good;
-                getMaxAcceptMoisture = stats.thresholds.moisture_max_acceptable;
-                getMinAcceptMoisture = stats.thresholds.moisture_min_acceptable;
-                getMaxAcceptTemperature = stats.thresholds.temperature_max_acceptable;
-                getMinAcceptTemperature = stats.thresholds.temperature_min_acceptable;
-                getMaxGoodLight = stats.thresholds.light_max_good;
-                getMinGoodLight = stats.thresholds.light_min_good;
-                getMaxAcceptLight = stats.thresholds.light_max_acceptable;
-                getMinAcceptLight = stats.thresholds.light_min_acceptable;
-                for(Measurement m :stats.measurements)
-                {
-                    try {
-                        //LocalDateTime time = LocalDateTime.parse(m.date_utc,formatter);
-                        //ZonedDateTime ztime = time.atZone(ZoneId.systemDefault());
-                        //long t = ztime.toEpochSecond();
-                        mFormatUTC.setTimeZone(TimeZone.getTimeZone("UTC"));
-                        Date d = mFormatUTC.parse(m.date_utc);
-                        long t = d.getTime();
+            getMaxGoodMoisture = stats.thresholds.moisture_max_good;
+            getMinGoodMoisture = stats.thresholds.moisture_min_good;
+            getMaxGoodTemperature = stats.thresholds.temperature_max_good;
+            getMinGoodTemperature = stats.thresholds.temperature_min_good;
+            getMaxAcceptMoisture = stats.thresholds.moisture_max_acceptable;
+            getMinAcceptMoisture = stats.thresholds.moisture_min_acceptable;
+            getMaxAcceptTemperature = stats.thresholds.temperature_max_acceptable;
+            getMinAcceptTemperature = stats.thresholds.temperature_min_acceptable;
+            getMaxGoodLight = stats.thresholds.light_max_good;
+            getMinGoodLight = stats.thresholds.light_min_good;
+            getMaxAcceptLight = stats.thresholds.light_max_acceptable;
+            getMinAcceptLight = stats.thresholds.light_min_acceptable;
+            for(Measurement m :stats.measurements)
+            {
+                try {
+                    mFormatUTC.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    Date d = mFormatUTC.parse(m.date_utc);
+                    long t = d.getTime();
 
-                        Entry e = new Entry(t,m.soil_moisture);
-                        moistureData.add(e);
+                    Entry e = new Entry(t,m.soil_moisture);
+                    moistureData.add(e);
 
-                        Entry te = new Entry(t,m.temperature);
-                        tempData.add(te);
+                    Entry te = new Entry(t,m.temperature);
+                    tempData.add(te);
 
-                        Entry le = new Entry(t,m.light);
-                        lightData.add(le);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+                    Entry le = new Entry(t,m.light);
+                    lightData.add(le);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-                Collections.sort(moistureData, new EntryXComparator());
-                Collections.sort(tempData, new EntryXComparator());
-                Collections.sort(lightData, new EntryXComparator());
-
-                LineDataSet moisture = getLineDataSet(moistureData,"Moisture",Color.BLUE);
-                moisture.setDrawHighlightIndicators(false);
-                LineDataSet temperature = getLineDataSet(tempData,"Temperature",Color.RED);
-                temperature.setDrawHighlightIndicators(false);
-                LineDataSet light = getLineDataSet(lightData,"Light",Color.YELLOW);
-                light.setDrawHighlightIndicators(false);
-
-                ArrayList<ILineDataSet> dataSetsarray = new ArrayList<>();
-                dataSetsarray.add(moisture);
-                dataSetsarray.add(temperature);
-                dataSetsarray.add(light);
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        soil_moistureData.setValue(dataSetsarray);
-                    }
-                });
-
             }
-        }).start();
+            Collections.sort(moistureData, new EntryXComparator());
+            Collections.sort(tempData, new EntryXComparator());
+            Collections.sort(lightData, new EntryXComparator());
+
+            LineDataSet moisture = getLineDataSet(moistureData,"Moisture",Color.BLUE);
+            moisture.setDrawHighlightIndicators(false);
+            LineDataSet temperature = getLineDataSet(tempData,"Temperature",Color.RED);
+            temperature.setDrawHighlightIndicators(false);
+            LineDataSet light = getLineDataSet(lightData,"Light",Color.YELLOW);
+            light.setDrawHighlightIndicators(false);
+
+            ArrayList<ILineDataSet> dataSetsarray = new ArrayList<>();
+            dataSetsarray.add(moisture);
+            dataSetsarray.add(temperature);
+            dataSetsarray.add(light);
+            soil_moistureData.setValue(dataSetsarray);
+
+        });
     }
 
     private LineDataSet getLineDataSet(List<Entry> data,String name,int color)

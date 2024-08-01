@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.growstats.GrowStatsApplication;
+import com.growstats.api.ApiCallBack;
 import com.growstats.controller.FytaController;
 import com.growstats.hilt.ApiEntryPoint;
 
@@ -40,28 +41,17 @@ public class ImageCache {
     }
 
     public void loadBitmap(String url) {
-        new Thread(new Runnable() {
+
+        fytaController.getAsyncRestClient().getImageResponse(url, new ApiCallBack<ResponseBody>() {
             @Override
-            public void run() {
-                Bitmap bitmap = getBitmap(url);
+            public void onResponse(ResponseBody response) {
+                InputStream inputStream = response.byteStream();
+                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
                 ImageView imageView = weakReference.get();
                 if (imageView != null)
-                    imageView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            imageView.setImageBitmap(bitmap);
-                        }
-                    });
+                    imageView.setImageBitmap(bitmap);
             }
-        }).start();
+        });
     }
-
-    private Bitmap getBitmap(String ur) {
-        ResponseBody b = fytaController.getRestClient().imageResponse(ur);
-        InputStream inputStream = b.byteStream();
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-        Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
-        return bitmap;
-    }
-
 }

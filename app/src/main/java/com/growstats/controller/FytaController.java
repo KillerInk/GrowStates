@@ -1,6 +1,7 @@
 package com.growstats.controller;
 
 import com.growstats.api.fyta.FytaFactory;
+import com.growstats.api.fyta.api.async.FytaAsyncRestClient;
 import com.growstats.api.fyta.api.sync.FytaRestClient;
 
 import javax.inject.Inject;
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 public class FytaController {
 
     private static FytaRestClient restClient;
+    private static FytaAsyncRestClient asyncRestClient;
     private static String key;
     private static boolean created = false;
 
@@ -28,5 +30,12 @@ public class FytaController {
         if (restClient == null && key != null)
             restClient = FytaFactory.newInstance(key,"",FytaFactory.FYTA_INOFFICAL_HTTPS).newRestClient();
         return restClient;
+    }
+
+
+    public FytaAsyncRestClient getAsyncRestClient() {
+        if (asyncRestClient == null && key != null)
+            asyncRestClient = FytaFactory.newInstance(key,"",FytaFactory.FYTA_INOFFICAL_HTTPS).newAsyncRestClient();
+        return asyncRestClient;
     }
 }
