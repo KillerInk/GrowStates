@@ -35,7 +35,7 @@ public class FytaFactory implements BasicFactory<FytaRestClient, FytaAsyncRestCl
 
     @Override
     public FytaAsyncRestClient newAsyncRestClient() {
-        return new FytaAsyncRestClientImpl();
+        return new FytaAsyncRestClientImpl(apiKey,secret,apiUrl);
     }
 
     @Override
