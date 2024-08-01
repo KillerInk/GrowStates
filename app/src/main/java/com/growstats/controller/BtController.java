@@ -78,6 +78,16 @@ public class BtController {
         } else {
            startDiscover();
         }
+        if (btClientHashMap.size() >0)
+        {
+            String[] keys = btClientHashMap.keySet().toArray(new String[btClientHashMap.size()]);
+            for (String k : keys)
+            {
+                if (eventsListner != null) {
+                    eventsListner.onFoundDevice(k,btClientHashMap.get(k));
+                }
+            }
+        }
     }
 
     @SuppressLint("MissingPermission")

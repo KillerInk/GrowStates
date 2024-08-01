@@ -28,31 +28,22 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
     }
 
 
-    public void setPlants(List<PlantItem> p)
+    void addPlant(PlantItem plantItem)
     {
-        if(plants.size() == 0) {
-            plants.addAll(p);
-            notifyItemRangeChanged(0, plants.size());
-            return;
-        }
-        for (PlantItem pl : p)
+        boolean found = false;
+        for (PlantItem addedP : plants)
         {
-            boolean found = false;
-            for (PlantItem addedP : plants)
+            if(addedP.sensor_mac.equals(plantItem.sensor_mac))
             {
-                if(addedP.sensor_mac.equals(pl.sensor_mac))
-                {
-                    addedP.copyFrom(pl);
-                    found = true;
-                }
+                addedP.copyFrom(plantItem);
+                found = true;
             }
-            if(!found) {
-                plants.add(pl);
-                notifyItemInserted(plants.size());
-            }
-        }
-        notifyDataSetChanged();
 
+        }
+        if(!found) {
+            plants.add(plantItem);
+            notifyItemInserted(plants.size());
+        }
     }
 
     @NonNull
@@ -110,5 +101,15 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
         public RecylerviewItemPlantBinding getPlantBinding() {
             return plantBinding;
         }
+    }
+
+    public PlantItem getPlantItem(String mac)
+    {
+        for (PlantItem p : plants)
+        {
+            if (p.sensor_mac.equals(mac))
+                return p;
+        }
+        return null;
     }
 }

@@ -107,7 +107,10 @@ public class PlantItem extends BaseObservable {
     }
 
     public void setButtonVisibility(int buttonVisibility) {
+        if(this.buttonVisibility == buttonVisibility)
+            return;
         this.buttonVisibility = buttonVisibility;
+        notifyPropertyChanged(BR.buttonVisibility);
     }
 
     @Bindable
