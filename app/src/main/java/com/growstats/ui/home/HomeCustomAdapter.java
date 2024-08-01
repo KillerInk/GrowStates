@@ -19,7 +19,7 @@ import javax.inject.Inject;
 
 public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.ViewHolder>
 {
-    private static List<PlantItem> plants = new ArrayList<>();
+    private  List<PlantItem> plants = new ArrayList<>();
     private View.OnClickListener onClickListener;
 
     @Inject
@@ -31,9 +31,9 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
     public void setPlants(List<PlantItem> p)
     {
         if(plants.size() == 0) {
-            plants.clear();
             plants.addAll(p);
             notifyItemRangeChanged(0, plants.size());
+            return;
         }
         for (PlantItem pl : p)
         {
@@ -51,6 +51,7 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
                 notifyItemInserted(plants.size());
             }
         }
+        notifyDataSetChanged();
 
     }
 
@@ -68,6 +69,7 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getPlantBinding().setPlant(plants.get(position));
+        holder.getPlantBinding().executePendingBindings();
     }
 
     @Override

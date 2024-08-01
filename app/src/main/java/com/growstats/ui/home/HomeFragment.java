@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment {
         mViewModel.btController = btController;
         homeBinding.recylerviewPlants.setAdapter(customAdapter);
         homeBinding.recylerviewPlants.setLayoutManager(new LinearLayoutManager(getContext()));
+        homeBinding.setLifecycleOwner(this);
         customAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

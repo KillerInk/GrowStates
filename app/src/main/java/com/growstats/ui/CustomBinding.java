@@ -23,19 +23,15 @@ public class CustomBinding {
                 view.setTextColor(Color.WHITE);
                 break;
             case tooLow:
-                view.setTextColor(Color.RED);
+            case tooHigh:
+                view.setTextColor(view.getResources().getColor(R.color.dark_red));
                 break;
             case low:
+            case high:
                 view.setTextColor(Color.YELLOW);
                 break;
             case perfect:
                 view.setTextColor(Color.GREEN);
-                break;
-            case high:
-                view.setTextColor(Color.YELLOW);
-                break;
-            case tooHigh:
-                view.setTextColor(Color.RED);
                 break;
         }
     }

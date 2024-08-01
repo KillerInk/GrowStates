@@ -38,7 +38,7 @@ public class PlantItem extends BaseObservable {
     {
     }
 
-    public ObservableInt buttonVisibility = new ObservableInt(View.GONE);
+    private int buttonVisibility = View.GONE;
 
     public void onclick()
     {
@@ -104,6 +104,15 @@ public class PlantItem extends BaseObservable {
     @Bindable
     public BtClient.BtClientState getBtClientState() {
         return btClientState;
+    }
+
+    public void setButtonVisibility(int buttonVisibility) {
+        this.buttonVisibility = buttonVisibility;
+    }
+
+    @Bindable
+    public int getButtonVisibility() {
+        return buttonVisibility;
     }
 
     public void copyFrom(PlantItem plantItem)

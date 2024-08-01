@@ -106,7 +106,7 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
     public void onFoundDevice(String mac, BtClient btClient) {
         for (PlantItem p : plantItemList) {
             if (p.sensor_mac.equals(mac)) {
-                p.buttonVisibility.set(View.VISIBLE);
+                p.setButtonVisibility(View.VISIBLE);
                 btClient.setEventsListner(this);
             }
         }
