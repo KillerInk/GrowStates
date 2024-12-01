@@ -68,6 +68,8 @@ public class PlantChartViewModel extends ViewModel {
     public void getPlantStats(int id, TimeRange range)
     {
         activeRange = range;
+        if(fytaController == null || fytaController.getAsyncRestClient() == null)
+            return;
         fytaController.getAsyncRestClient().getPlantStats(id, activeRange, stats -> {
             if (stats == null)
                 return;
@@ -135,8 +137,10 @@ public class PlantChartViewModel extends ViewModel {
         set1.setLineWidth(1f);
         set1.setDrawCircles(false);
         set1.setDrawValues(false);
+        set1.setValueTextSize(10f);
         set1.setFillAlpha(85);
-        set1.setFillColor(ColorTemplate.getHoloBlue());
+        set1.setDrawFilled(true);
+        set1.setFillColor(color);
         set1.setHighLightColor(Color.rgb(244, 117, 117));
         set1.setDrawCircleHole(false);
         set1.setColor(color);

@@ -45,7 +45,10 @@ public class ServiceGenerator {
                 .addConverterFactory(converterFactory);
 
         if (TextUtils.isEmpty(apiKey) && TextUtils.isEmpty(secret)) {
-            retrofitBuilder.client(sharedClient);
+            HttpLoggingInterceptor interceptor2 = new HttpLoggingInterceptor();
+            interceptor2.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+            OkHttpClient adaptedClient = sharedClient.newBuilder().addInterceptor(interceptor2).build();
+            retrofitBuilder.client(adaptedClient);
         } else {
             // `adaptedClient` will use its own interceptor, but share thread pool etc with the 'parent' client
             AuthenticationInterceptor interceptor = new AuthenticationInterceptor(apiKey, secret);
@@ -81,6 +84,10 @@ public class ServiceGenerator {
      */
     public static ApiError getApiError(Response<?> response) throws IOException, ApiException {
         return errorBodyConverter.convert(response.errorBody());
+    }
+
+    public static OkHttpClient getSharedClient() {
+        return sharedClient;
     }
 }
 

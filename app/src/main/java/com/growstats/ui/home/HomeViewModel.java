@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.growstats.api.ApiCallBack;
 import com.growstats.api.ApiException;
+import com.growstats.api.espfancontroller.objects.EspSettingsResponse;
 import com.growstats.api.fyta.request.LiveModeBody;
 import com.growstats.api.fyta.response.LiveModeResponse;
 import com.growstats.api.fyta.objects.MeasurementData;
@@ -18,6 +19,9 @@ import com.growstats.api.fyta.response.GetUserPlantsResponse;
 import com.growstats.controller.BeamData;
 import com.growstats.controller.BtClient;
 import com.growstats.controller.BtController;
+import com.growstats.controller.EspFanController;
+import com.growstats.controller.EspFanControllerServiceDiscover;
+import com.growstats.controller.EspSocketController;
 import com.growstats.controller.FytaController;
 import com.growstats.controller.Settings;
 
@@ -29,8 +33,9 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
-public class HomeViewModel extends ViewModel implements LiveButtonClick, BtController.Events, BtClient.Events {
+public class HomeViewModel extends ViewModel implements LiveButtonClick, BtController.Events, BtClient.Events, EspSocketController.Event {
 
+    private final String TAG = HomeViewModel.class.getName();
     @Override
     public void onClick(String mac) {
         BtClient btClient = btController.getClient(mac);
@@ -45,20 +50,33 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
     private FytaController fytaController;
     private Handler handler = new Handler(Looper.getMainLooper());
     public BtController btController;
+    EspFanControllerServiceDiscover espFanControllerServiceDiscover;
+    EspFanController espFanController;
+    EspSocketController socketController;
 
     @Inject
-    public HomeViewModel(FytaController fytaController, Settings settings, HomeCustomAdapter homeCustomAdapter) {
+    public HomeViewModel(FytaController fytaController, Settings settings, HomeCustomAdapter homeCustomAdapter, EspFanController espFanController) {
         this.fytaController = fytaController;
         this.settings = settings;
         this.homeCustomAdapter = homeCustomAdapter;
+        this.espFanController = espFanController;
+        socketController = new EspSocketController();
     }
+
 
     public void onResume() {
         btController.eventsListner = this::onFoundDevice;
+        espFanControllerServiceDiscover = new EspFanControllerServiceDiscover(btController.getContext());
+        espFanControllerServiceDiscover.serviceEvent = url -> {
+            espFanController.createApi(url);
+            socketController.connect(espFanController.getAsyncRestClient().createWebSocket(url.replace("http://","")+"/ws"),this::onNewTent,url);
+        };
+        espFanControllerServiceDiscover.initializeDiscoveryListener();
         final String k = settings.getSetting(Settings.KEY_APIKEY);
         if (k.equals(""))
             return;
         fytaController.createApi(k);
+        Log.i(TAG, "getUserPlants");
         fytaController.getAsyncRestClient().getUserPlants(response -> {
             for (Plant p : response.plants) {
                 PlantItem item = new PlantItem();
@@ -72,6 +90,7 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
                 item.thumbPath = p.thumb_path;
                 item.sensor_mac = p.sensor.id;
                 if (p.sensor != null && p.sensor.has_sensor) {
+                    Log.i(TAG, "getPlantDetails " + p.id);
                     fytaController.getAsyncRestClient().getPlantDetails(p.id, r -> {
                         item.light_unit = r.plant.measurements.light.unit;
                         item.setLight_val(r.plant.measurements.light.values.currentFormatted + item.light_unit);
@@ -88,6 +107,12 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
             }
         });
         btController.find();
+    }
+
+    public void onPause()
+    {
+        if(socketController != null)
+            socketController.close();
     }
 
     @Override
@@ -134,5 +159,16 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
             p.setTemperature_val(response.measurements.temperature_formatted + p.temperatureunit);
             p.setSalinity_val(response.measurements.soil_fertility + p.salinity_unit);
         });
+    }
+
+    @Override
+    public void onNewTent(TentItem tentItem) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                homeCustomAdapter.addTent(tentItem);
+            }
+        });
+
     }
 }

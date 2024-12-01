@@ -31,7 +31,7 @@ public class BtController {
     private final String TAG = BtController.class.getName().toString();
     private BluetoothAdapter btAdapter;
     private AppCompatActivity mainActivity;
-    private ActivityResultLauncher<String> mPermissionResult;
+
     private HashMap<String, BtClient> btClientHashMap;
     public Events eventsListner;
 
@@ -51,19 +51,12 @@ public class BtController {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         mainActivity = (AppCompatActivity) context;
         // Permission to bt
-        mPermissionResult = mainActivity.registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                new ActivityResultCallback<Boolean>() {
-                    @Override
-                    public void onActivityResult(Boolean result) {
-                        if (result) {
-                           startDiscover();
-                        } else {
-                            Log.e(TAG, "onActivityResult: PERMISSION DENIED");
-                        }
-                    }
-                });
 
+    }
+
+    public Context getContext()
+    {
+        return mainActivity;
     }
 
 
@@ -91,7 +84,7 @@ public class BtController {
     }
 
     @SuppressLint("MissingPermission")
-    private void startDiscover()
+    public void startDiscover()
     {
         try {
             btAdapter.startDiscovery();

@@ -18,7 +18,12 @@ public class ApiCallBackAdapter<T> implements Callback<T> {
 
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
-            callback.onResponse(response.body());
+            try {
+                callback.onResponse(response.body());
+            } catch(NullPointerException ex)
+            {
+                ex.printStackTrace();
+            }
         } else {
             if (response.code() == 504) {
                 // HTTP 504 return code is used when the API successfully sent the message but not get a response within the timeout period.
@@ -39,7 +44,12 @@ public class ApiCallBackAdapter<T> implements Callback<T> {
         if (throwable instanceof ApiException) {
             callback.onFailure(throwable);
         } else {
-            callback.onFailure(new ApiException(throwable));
+            try {
+                callback.onFailure(new ApiException(throwable));
+            }catch (NullPointerException ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 }

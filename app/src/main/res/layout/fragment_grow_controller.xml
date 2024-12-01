@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.growstats.ui.controller.GrowControllerViewModel" />
+    </data>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="Fan1 Min Voltage mv:" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber_fan1minvolt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="@={`` +viewmodel.fan0min}"/>
+                </FrameLayout>
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="Fan1 Max Voltage mv:" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber_fan1maxvolt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="@={viewmodel.fan0max}"/>
+
+                </FrameLayout>
+
+            <Button
+                    android:id="@+id/button_fan1submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:onClick="@{() -> viewmodel.fan0_submit()}"/>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="Fan2 Min Voltage mv:" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber_fan2minvolt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="@={`` + viewmodel.fan1min}"/>
+                </FrameLayout>
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="Fan2 Max Voltage mv:" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber_fan2maxvolt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="@={`` + viewmodel.fan1max}"/>
+
+                </FrameLayout>
+
+            <Button
+                    android:id="@+id/button_fan2submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:onClick="@{() -> viewmodel.fan1_submit()}"/>
+
+                <CheckBox
+                    android:id="@+id/checkBox_fan_automatic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fan Automatic Control"
+                    android:checked="@={viewmodel.fanautocontrol}"
+                    />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="Target Temperature °C:" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber_target_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="@={`` + viewmodel.target_temp}"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="Target Humdity %:" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber_target_humidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="@={`` + viewmodel.target_hum}"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="Fan Speed Difference %:" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber_fanspeed_difference"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="@={`` + viewmodel.fans_speed_difference}"/>
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/button_fan_automatic_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:onClick="@{() -> viewmodel.fan_autotarget_submit()}"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="Fan min Speed %:" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber_fanspeed_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="@={`` + viewmodel.fans_speed_min}"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:text="Fan max Speed %:" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber_fanspeed_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="@={`` + viewmodel.fans_speed_max}"/>
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/button_fan_speed_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:onClick="@{() -> viewmodel.fan_auto_speedlimits_submit()}"/>
+
+                <CheckBox
+                    android:id="@+id/checkBox_fan_nightmode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fan Nightmode"
+                    android:checked="@={viewmodel.fannightmode}"
+                    />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Nightmode On:" />
+
+                <EditText
+                    android:id="@+id/editTextNumber_fannightmode_on_h"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.fan_nightmode_on_h}"/>
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="H"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:id="@+id/editTextNumber_fannightmode_on_min"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.fan_nightmode_on_min}"/>
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Min"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Nightmode Off:" />
+                <EditText
+                    android:id="@+id/editTextNumber_fannightmode_off_h"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.fan_nightmode_off_h}"/>
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="H"
+                    android:layout_gravity="center_vertical"/>
+                <EditText
+                    android:id="@+id/editTextNumber_fannightmode_off_min"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.fan_nightmode_off_min}"/>
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Min"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Fan max Speed at Night %:" />
+                <EditText
+                    android:id="@+id/editTextNumber_fanspeed_max_night"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.fan_nightmode_speed_max}"/>
+            </FrameLayout>
+            <Button
+                android:id="@+id/button_fan_nightmode_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:onClick="@{() -> viewmodel.fan_nightmode_submit()}"/>
+            <CheckBox
+                android:id="@+id/checkBox_light_automatic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Light Auto Control"
+                android:checked="@={viewmodel.light_auto_control}" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Light min Voltage mv:" />
+                <EditText
+                    android:id="@+id/editTextNumber_light_min_volt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_min_volt}"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Light max Voltage mv:" />
+
+                <EditText
+                    android:id="@+id/editTextNumber_light_max_volt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_max_volt}"/>
+            </FrameLayout>
+            <Button
+                android:id="@+id/button_light_automatic_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:onClick="@{() -> viewmodel.light_voltage_submit()}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Turn Light On:" />
+                <EditText
+                    android:id="@+id/editTextNumber_light_on_h"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_on_h}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="H"
+                    android:layout_gravity="center_vertical"/>
+                <EditText
+                    android:id="@+id/editTextNumber_light_on_min"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_on_min}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Min"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Turn Light Off:" />
+                <EditText
+                    android:id="@+id/editTextNumber_light_off_h"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_off_h}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="H"
+                    android:layout_gravity="center_vertical"/>
+                <EditText
+                    android:id="@+id/editTextNumber_light_off_min"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_off_min}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Min"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <CheckBox
+                android:id="@+id/checkBox_sunrise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enable Sunrise"
+                android:checked="@={viewmodel.light_sunrise_enable}"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Sunrise End:" />
+                <EditText
+                    android:id="@+id/editTextNumber_sunrise_end_h"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_sunrise_end_h}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="H"
+                    android:layout_gravity="center_vertical"/>
+                <EditText
+                    android:id="@+id/editTextNumber_sunrise_end_min"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_sunrise_end_min}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Min"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <CheckBox
+                android:id="@+id/checkBox_sunset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enable Sunset"
+                android:checked="@={viewmodel.light_sunset_enable}"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Sunset Start:" />
+                <EditText
+                    android:id="@+id/editTextNumber_sunset_start_h"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_sunset_start_h}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="H"
+                    android:layout_gravity="center_vertical"/>
+                <EditText
+                    android:id="@+id/editTextNumber_sunset_start_min"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_sunset_start_min}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Min"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/button_light_values_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:onClick="@{() -> viewmodel.light_values_submit()}"/>
+            </LinearLayout>
+    </ScrollView>
+
+
+</layout>

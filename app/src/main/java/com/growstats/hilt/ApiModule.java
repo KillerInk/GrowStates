@@ -3,6 +3,7 @@ package com.growstats.hilt;
 import android.content.Context;
 
 import com.growstats.controller.BtController;
+import com.growstats.controller.EspFanController;
 import com.growstats.controller.FytaController;
 import com.growstats.ui.home.HomeCustomAdapter;
 
@@ -34,6 +35,13 @@ public class ApiModule {
     public static HomeCustomAdapter homeCustomAdapter()
     {
         return new HomeCustomAdapter();
+    }
+
+    @Provides
+    @Singleton
+    public static EspFanController espFanController()
+    {
+        return new EspFanController();
     }
 
     @Provides

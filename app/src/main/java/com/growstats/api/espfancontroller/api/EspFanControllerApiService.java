@@ -1,4 +1,6 @@
 package com.growstats.api.espfancontroller.api;
+import com.growstats.api.espfancontroller.objects.EspSettingsResponse;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -22,7 +24,7 @@ public interface EspFanControllerApiService {
 
     //`${host}/cmd?var=autocontrol&val=${val}`;
     @GET("/cmd?var=autocontrol")
-    Call<ResponseBody> setFanAutoControl(@Query("val") boolean autocontrol);
+    Call<ResponseBody> setFanAutoControl(@Query("val") int autocontrol);
 
     //`${host}/cmd?var=readgovee&val=${val}`
     @GET("/cmd?var=readgovee")
@@ -37,7 +39,7 @@ public interface EspFanControllerApiService {
     Call<ResponseBody> setFanNightModeTimes(@Query("onh") int onhour,@Query("onm") int onmin, @Query("offh") int offh,@Query("offm") int offm,@Query("mspeed") int mspeed);
     //`${host}/cmd?var=fannightmodeactive&nighton=${val}`;
     @GET("/cmd?var=fannightmodeactive")
-    Call<ResponseBody> setFanNightModeActive(@Query("val") boolean read);
+    Call<ResponseBody> setFanNightModeActive(@Query("val") int read);
     //`${host}/cmd?var=lightvoltage&min=${min}&max=${max}`;
     @GET("/cmd?var=lightvoltage")
     Call<ResponseBody> setLightVoltage(@Query("min") int min,@Query("max") int max);
@@ -57,6 +59,9 @@ public interface EspFanControllerApiService {
 
     //`${host}/cmd?var=lightautomode&enable=${val}`;
     @GET("/cmd?var=lightautomode")
-    Call<ResponseBody> setLightAutoControl(@Query("val") boolean autocontrol);
+    Call<ResponseBody> setLightAutoControl(@Query("val") int autocontrol);
+
+    @GET("/settings")
+    Call<EspSettingsResponse> getSettings();
 
 }

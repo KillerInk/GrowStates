@@ -1,5 +1,8 @@
 package com.growstats.api.espfancontroller.api;
 
+import com.growstats.api.MySocket;
+import com.growstats.api.espfancontroller.objects.EspSettingsResponse;
+
 import okhttp3.ResponseBody;
 
 public interface EspFanControllerRestClient {
@@ -15,4 +18,6 @@ public interface EspFanControllerRestClient {
     ResponseBody setFanAutoSpeed(int min, int max);
     ResponseBody setFanNightModeTimes(int onh, int onmin, int offh, int offmin, int max_speed);
     ResponseBody setLightTimes(int onh, int onmin, int offh, int offmin,int riseh, int risemin, int seth, int setmin, boolean riseenable, boolean setenable);
+    EspSettingsResponse getSettings();
+    public MySocket createWebSocket(String url);
 }

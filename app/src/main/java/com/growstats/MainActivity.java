@@ -1,8 +1,12 @@
 package com.growstats;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.growstats.controller.BtController;
@@ -17,9 +21,11 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private ActivityResultLauncher<String> mPermissionResult;
 
     @Inject
     NavigationController navigationController;
+    @Inject BtController btController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +33,19 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        navigationController.show(NavigationController.NavView.home);
+        mPermissionResult = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                new ActivityResultCallback<Boolean>() {
+                    @Override
+                    public void onActivityResult(Boolean result) {
+                        if (result) {
+                            btController.startDiscover();
+                        } else {
+                            //Log.e(TAG, "onActivityResult: PERMISSION DENIED");
+                        }
+                    }
+                });
+
         binding.buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,5 +64,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        navigationController.show(NavigationController.NavView.home);
     }
+
+
+
 }

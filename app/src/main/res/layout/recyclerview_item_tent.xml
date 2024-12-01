@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tent"
+            type="com.growstats.ui.home.TentItem" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/tentlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Temperatur:" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Humidity:" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="eCO2:" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TVOC:" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Light%" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Light mv" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fan0:" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fan1:" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="VPD:" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_temperatur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{tent.temp}" />
+
+            <TextView
+                android:id="@+id/textView_humidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{tent.hum}" />
+
+            <TextView
+                android:id="@+id/textView_eCO2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{tent.eco2}" />
+
+            <TextView
+                android:id="@+id/textView_tvoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{tent.tvoc}" />
+
+            <TextView
+                android:id="@+id/textView_lightP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{tent.lightp}" />
+
+            <TextView
+                android:id="@+id/textView_lightMV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{tent.lightmv}" />
+
+            <TextView
+                android:id="@+id/textView_fan0speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{tent.fan0speed}" />
+
+            <TextView
+                android:id="@+id/textView_fan1speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{tent.fan1speed}" />
+
+            <TextView
+                android:id="@+id/textView_vdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{tent.vdp}" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

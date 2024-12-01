@@ -1,11 +1,16 @@
 package com.growstats.ui;
 
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
+import androidx.databinding.InverseBindingAdapter;
+import androidx.databinding.InverseBindingListener;
 
 import com.growstats.R;
 import com.growstats.api.fyta.enums.MeasurementStatus;
@@ -71,5 +76,4 @@ public class CustomBinding {
             }
         }
     }
-
 }

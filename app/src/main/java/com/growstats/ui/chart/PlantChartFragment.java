@@ -82,6 +82,7 @@ public class PlantChartFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<ILineDataSet> data) {
                 YAxis leftAxis = fragmentBinding.chartMoisture.getAxisLeft();
+                //fragmentBinding.chartMoisture.setMaxVisibleValueCount(15);
                 leftAxis.setAxisMinimum(0);
                 leftAxis.setAxisMaximum(100);
                 LineData m = new LineData(data.get(0));
@@ -89,6 +90,7 @@ public class PlantChartFragment extends Fragment {
                 fragmentBinding.chartMoisture.setData(m);
                 fragmentBinding.chartMoisture.invalidate();
 
+                //fragmentBinding.chartTemperature.setMaxVisibleValueCount(15);
                 leftAxis = fragmentBinding.chartTemperature.getAxisLeft();
                 leftAxis.setAxisMinimum(0);
                 leftAxis.setAxisMaximum(50);
@@ -98,6 +100,7 @@ public class PlantChartFragment extends Fragment {
                 fragmentBinding.chartTemperature.invalidate();
 
 
+                //fragmentBinding.chartLight.setMaxVisibleValueCount(15);
                 leftAxis = fragmentBinding.chartLight.getAxisLeft();
                 leftAxis.setAxisMinimum(0);
                 leftAxis.setAxisMaximum(1400);
@@ -147,7 +150,7 @@ public class PlantChartFragment extends Fragment {
 
        // enable scaling and dragging
        chart.setDragEnabled(true);
-       chart.setScaleEnabled(false);
+       chart.setScaleEnabled(true);
        chart.setDrawGridBackground(false);
        chart.setHighlightPerDragEnabled(true);
 

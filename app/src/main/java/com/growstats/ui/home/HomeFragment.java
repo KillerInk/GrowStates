@@ -47,15 +47,19 @@ public class HomeFragment extends Fragment {
         mViewModel.btController = btController;
         homeBinding.recylerviewPlants.setAdapter(customAdapter);
         homeBinding.recylerviewPlants.setLayoutManager(new LinearLayoutManager(getContext()));
-        homeBinding.setLifecycleOwner(this);
+        //homeBinding.setLifecycleOwner(this);
         customAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int pos = homeBinding.recylerviewPlants.getChildLayoutPosition(view);
                 int id = customAdapter.getPlantId(pos);
-                navigationController.showStats(id,customAdapter.getPlantName(pos));
+                if(id >=0)
+                    navigationController.showStats(id,customAdapter.getPlantName(pos));
+                else
+                    navigationController.showGrowControllerSettings();
             }
         });
+
         return homeBinding.getRoot();
     }
 
@@ -63,5 +67,11 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mViewModel.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mViewModel.onPause();
     }
 }

@@ -1,8 +1,10 @@
 package com.growstats.api.espfancontroller.impl;
 
+import com.growstats.api.MySocket;
 import com.growstats.api.ServiceGenerator;
 import com.growstats.api.espfancontroller.api.EspFanControllerApiService;
 import com.growstats.api.espfancontroller.api.EspFanControllerRestClient;
+import com.growstats.api.espfancontroller.objects.EspSettingsResponse;
 
 import okhttp3.ResponseBody;
 
@@ -42,7 +44,10 @@ public class EspFanControllerRestClientImpl implements EspFanControllerRestClien
 
     @Override
     public ResponseBody setFanAutoControl(boolean autoc) {
-        return ServiceGenerator.executeSync(apiService.setFanAutoControl(autoc));
+        int t = 0;
+        if(autoc)
+            t=1;
+        return ServiceGenerator.executeSync(apiService.setFanAutoControl(t));
     }
 
     @Override
@@ -52,12 +57,18 @@ public class EspFanControllerRestClientImpl implements EspFanControllerRestClien
 
     @Override
     public ResponseBody setFanNightModeActive(boolean read) {
-        return ServiceGenerator.executeSync(apiService.setFanNightModeActive(read));
+        int t = 0;
+        if(read)
+            t=1;
+        return ServiceGenerator.executeSync(apiService.setFanNightModeActive(t));
     }
 
     @Override
     public ResponseBody setLightAutoControl(boolean read) {
-        return ServiceGenerator.executeSync(apiService.setLightAutoControl(read));
+        int t = 0;
+        if(read)
+            t=1;
+        return ServiceGenerator.executeSync(apiService.setLightAutoControl(t));
     }
 
     @Override
@@ -73,5 +84,16 @@ public class EspFanControllerRestClientImpl implements EspFanControllerRestClien
     @Override
     public ResponseBody setLightTimes(int onh, int onmin, int offh, int offmin, int riseh, int risemin, int seth, int setmin, boolean riseenable, boolean setenable) {
         return ServiceGenerator.executeSync(apiService.setLightNightModeTimes(onh,onmin,offh,offmin,riseh,risemin,seth,setmin,riseenable,setenable));
+    }
+
+    @Override
+    public EspSettingsResponse getSettings() {
+        return ServiceGenerator.executeSync(apiService.getSettings());
+    }
+
+    public MySocket createWebSocket(String url)
+    {
+        //Log.i(TAG,"createWebSocket ws://"+url);
+        return new MySocket(ServiceGenerator.getSharedClient(),"ws://"+url);
     }
 }

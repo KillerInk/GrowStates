@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.growstats.R;
+import com.growstats.ui.controller.GrowControllerFragment;
 import com.growstats.ui.home.HomeFragment;
 import com.growstats.ui.chart.PlantChartFragment;
 import com.growstats.ui.SettingsFragment;
@@ -25,16 +26,17 @@ public class NavigationController {
 
     private FragmentManager fragmentManager;
     private SettingsFragment settingsFragment;
-    private HomeFragment homeFragment;
+    private HomeFragment homeFragment = new HomeFragment();
     private static Fragment activeFragment;
     private PlantChartFragment plantChartFragment;
+    private GrowControllerFragment growControllerFragment;
 
     @Inject
     public NavigationController(@ActivityContext Context context)
     {
         fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         settingsFragment = new SettingsFragment();
-        homeFragment = new HomeFragment();
+        growControllerFragment = new GrowControllerFragment();
         plantChartFragment = new PlantChartFragment();
     }
 
@@ -74,6 +76,18 @@ public class NavigationController {
 
             activeFragment = plantChartFragment;
         }
+    }
+
+    public void showGrowControllerSettings()
+    {
+        if(activeFragment != growControllerFragment)
+        {
+            if(activeFragment != null)
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainer,growControllerFragment).commit();
+            else
+                fragmentManager.beginTransaction().add(R.id.fragmentContainer, growControllerFragment).commit();
+        }
+        activeFragment = growControllerFragment;
     }
 
 
