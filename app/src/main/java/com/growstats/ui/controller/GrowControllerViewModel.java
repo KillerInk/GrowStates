@@ -39,6 +39,8 @@ public class GrowControllerViewModel extends ViewModel {
     public ObservableBoolean light_auto_control = new ObservableBoolean();
     public ObservableInt light_min_volt = new ObservableInt();
     public ObservableInt light_max_volt = new ObservableInt();
+    public ObservableInt light_min_percent = new ObservableInt();
+    public ObservableInt light_max_percent = new ObservableInt();
     public ObservableInt light_on_h = new ObservableInt();
     public ObservableInt light_on_min = new ObservableInt();
     public ObservableInt light_off_h = new ObservableInt();
@@ -94,6 +96,9 @@ public class GrowControllerViewModel extends ViewModel {
                 light_sunrise_end_min.set(response.lightrisemin);
                 light_sunset_start_h.set(response.lightseth);
                 light_sunset_start_min.set(response.lightsetmin);
+
+                light_max_percent.set(response.lightlimitspmax);
+                light_min_percent.set(response.lightlimitspmin);
             }
         });
     }
@@ -136,6 +141,11 @@ public class GrowControllerViewModel extends ViewModel {
     {
         espFanController.getAsyncRestClient().setLightAutoControl(light_auto_control.get(),dummycallback);
         espFanController.getAsyncRestClient().setLightVoltage(light_min_volt.get(),light_max_volt.get(),dummycallback);
+    }
+
+    public void light_percentlimits_submit()
+    {
+        espFanController.getAsyncRestClient().setLightLimitsPercent(light_min_percent.get(),light_max_percent.get(),dummycallback);
     }
 
     public void light_values_submit()

@@ -23,6 +23,7 @@ import com.growstats.controller.EspFanController;
 import com.growstats.controller.EspFanControllerServiceDiscover;
 import com.growstats.controller.EspSocketController;
 import com.growstats.controller.FytaController;
+import com.growstats.controller.NavigationController;
 import com.growstats.controller.Settings;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
     EspFanControllerServiceDiscover espFanControllerServiceDiscover;
     EspFanController espFanController;
     EspSocketController socketController;
+    public NavigationController navigationController;
 
     @Inject
     public HomeViewModel(FytaController fytaController, Settings settings, HomeCustomAdapter homeCustomAdapter, EspFanController espFanController) {
@@ -166,6 +168,7 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
         handler.post(new Runnable() {
             @Override
             public void run() {
+                tentItem.setNavigationController(navigationController);
                 homeCustomAdapter.addTent(tentItem);
             }
         });

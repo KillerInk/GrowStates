@@ -82,22 +82,36 @@ public class EspSocketController extends MySocketListner {
             TentItem tentItem = new TentItem();
             String temp ="";
             String hum ="";
-            if(response.has("temperatur"))
-                temp = response.getString("temperatur")+"°C";
-            if(response.has("humidity"))
-                hum = response.getString("humidity")+"%";
-            if(response.has("atemperatur"))
-                temp += " A:" + response.getString("atemperatur")+"°C";
-            if(response.has("ahumidity"))
-                hum += " A:" + response.getString("ahumidity") +"%";
-            tentItem.setHum(hum);
-            tentItem.setTemp(temp);
-
-            if(response.has("eco2"))
-                tentItem.setEco2(response.getString("eco2") +"ppm");
-
-            if(response.has("tvoc"))
-                tentItem.setTvoc(response.getString("tvoc") +"ppb");
+            if(response.has("bme280")) {
+                if (response.getJSONObject("bme280").has("temperatur"))
+                    temp = response.getJSONObject("bme280").getString("temperatur") + "°C";
+                if (response.getJSONObject("bme280").has("humidity"))
+                    hum = response.getJSONObject("bme280").getString("humidity") + "%";
+                if (response.getJSONObject("bme280").has("atemperatur"))
+                    temp += " A:" + response.getJSONObject("bme280").getString("atemperatur") + "°C";
+                if (response.getJSONObject("bme280").has("ahumidity"))
+                    hum += " A:" + response.getJSONObject("bme280").getString("ahumidity") + "%";
+                tentItem.setHum(hum);
+                tentItem.setTemp(temp);
+            }
+            if(response.has("ens160aht21")) {
+                if (response.getJSONObject("ens160aht21").has("eco2"))
+                    tentItem.setEco2(response.getJSONObject("ens160aht21").getString("eco2") + "ppm");
+                if (response.getJSONObject("ens160aht21").has("tvoc"))
+                    tentItem.setTvoc(response.getJSONObject("ens160aht21").getString("tvoc") + "ppb");
+            }
+            if(response.has("ens160aht21") && !response.has("bme280")) {
+                if (response.getJSONObject("ens160aht21").has("temperatur"))
+                    temp = response.getJSONObject("ens160aht21").getString("temperatur") + "°C";
+                if (response.getJSONObject("ens160aht21").has("humidity"))
+                    hum = response.getJSONObject("ens160aht21").getString("humidity") + "%";
+                if (response.getJSONObject("ens160aht21").has("atemperatur"))
+                    temp += " A:" + response.getJSONObject("ens160aht21").getString("atemperatur") + "°C";
+                if (response.getJSONObject("ens160aht21").has("ahumidity"))
+                    hum += " A:" + response.getJSONObject("ens160aht21").getString("ahumidity") + "%";
+                tentItem.setHum(hum);
+                tentItem.setTemp(temp);
+            }
             if(response.has("voltage0"))
                 tentItem.setFan0speed(response.getString("voltage0") +"mv");
             if(response.has("voltage1"))
@@ -105,7 +119,7 @@ public class EspSocketController extends MySocketListner {
             if(response.has("lightvalP"))
                 tentItem.setLightp(response.getString("lightvalP") +"%");
             if(response.has("lightvalmv"))
-                tentItem.setLightmv(response.getString("lightvalmv") +"%");
+                tentItem.setLightmv(response.getString("lightvalmv") +"mv");
             if(response.has("vpdair"))
                 tentItem.setVdp(response.getString("vpdair") +"kPa");
             tentItem.setUrl(url);

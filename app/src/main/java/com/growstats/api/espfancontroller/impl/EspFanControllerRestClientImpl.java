@@ -31,6 +31,10 @@ public class EspFanControllerRestClientImpl implements EspFanControllerRestClien
     public ResponseBody setLightVoltage(int min, int max) {
         return ServiceGenerator.executeSync(apiService.setLightVoltage(min,max));
     }
+    @Override
+    public ResponseBody setLightLimitsPercent(int min, int max) {
+        return ServiceGenerator.executeSync(apiService.setLightLimitsPercent(min,max));
+    }
 
     @Override
     public ResponseBody setFanAutoTargetValues(int temp, int hum, int speeddif) {
@@ -95,5 +99,10 @@ public class EspFanControllerRestClientImpl implements EspFanControllerRestClien
     {
         //Log.i(TAG,"createWebSocket ws://"+url);
         return new MySocket(ServiceGenerator.getSharedClient(),"ws://"+url);
+    }
+
+    @Override
+    public ResponseBody getCSVData(String year, String month, String day, String hour) {
+        return ServiceGenerator.executeSync(apiService.getCSVData(year,month,day,hour));
     }
 }

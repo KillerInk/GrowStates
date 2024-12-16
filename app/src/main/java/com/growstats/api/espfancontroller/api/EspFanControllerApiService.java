@@ -4,6 +4,7 @@ import com.growstats.api.espfancontroller.objects.EspSettingsResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface EspFanControllerApiService {
@@ -44,6 +45,9 @@ public interface EspFanControllerApiService {
     @GET("/cmd?var=lightvoltage")
     Call<ResponseBody> setLightVoltage(@Query("min") int min,@Query("max") int max);
 
+    @GET("/cmd?var=lightlimitsp")
+    Call<ResponseBody> setLightLimitsPercent(@Query("min") int min,@Query("max") int max);
+
     //`${host}/cmd?var=lightsettime&onh=${onh}&onmin=${onmin}&offh=${offh}&offmin=${offmin}&riseh=${riseh}&risemin=${risemin}&seth=${seth}&setmin=${setmin}&riseenable=${enablerise}&setenable=${enableset}`
     @GET("/cmd?var=lightsettime")
     Call<ResponseBody> setLightNightModeTimes(@Query("onh") int onhour,
@@ -63,5 +67,8 @@ public interface EspFanControllerApiService {
 
     @GET("/settings")
     Call<EspSettingsResponse> getSettings();
+
+    @GET("/{year}/{month}/{day}/{hour}.csv")
+    Call<ResponseBody> getCSVData(@Path("year")String year, @Path("month") String month, @Path("day")String day, @Path("hour")String hour);
 
 }

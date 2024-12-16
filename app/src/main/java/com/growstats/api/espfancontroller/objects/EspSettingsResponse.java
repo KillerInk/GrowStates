@@ -43,4 +43,6 @@ public class EspSettingsResponse {
     public boolean lightautomode;
     public int lightminvolt;
     public int lightmaxvolt;
+    public int lightlimitspmin;
+    public int lightlimitspmax;
 }

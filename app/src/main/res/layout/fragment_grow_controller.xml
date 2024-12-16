@@ -410,6 +410,49 @@
                 android:text="Submit"
                 android:onClick="@{() -> viewmodel.light_voltage_submit()}"/>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Light min %:" />
+                <EditText
+                    android:id="@+id/editTextNumber_light_min_percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_min_percent}"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="Light max %:" />
+
+                <EditText
+                    android:id="@+id/editTextNumber_light_max_percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@={`` + viewmodel.light_max_percent}"/>
+            </FrameLayout>
+            <Button
+                android:id="@+id/button_light_percent_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:onClick="@{() -> viewmodel.light_percentlimits_submit()}"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

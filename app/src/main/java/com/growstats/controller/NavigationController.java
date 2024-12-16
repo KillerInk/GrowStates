@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.growstats.R;
+import com.growstats.ui.controller.GrowControllerChartFragment;
 import com.growstats.ui.controller.GrowControllerFragment;
 import com.growstats.ui.home.HomeFragment;
 import com.growstats.ui.chart.PlantChartFragment;
@@ -30,6 +31,7 @@ public class NavigationController {
     private static Fragment activeFragment;
     private PlantChartFragment plantChartFragment;
     private GrowControllerFragment growControllerFragment;
+    private GrowControllerChartFragment growControllerChartFragment;
 
     @Inject
     public NavigationController(@ActivityContext Context context)
@@ -38,6 +40,7 @@ public class NavigationController {
         settingsFragment = new SettingsFragment();
         growControllerFragment = new GrowControllerFragment();
         plantChartFragment = new PlantChartFragment();
+        growControllerChartFragment = new GrowControllerChartFragment();
     }
 
     public void show(NavView nav)
@@ -88,6 +91,18 @@ public class NavigationController {
                 fragmentManager.beginTransaction().add(R.id.fragmentContainer, growControllerFragment).commit();
         }
         activeFragment = growControllerFragment;
+    }
+
+    public void showGrowControllerChart()
+    {
+        if(activeFragment != growControllerChartFragment)
+        {
+            if(activeFragment != null)
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainer,growControllerChartFragment).commit();
+            else
+                fragmentManager.beginTransaction().add(R.id.fragmentContainer, growControllerChartFragment).commit();
+        }
+        activeFragment = growControllerChartFragment;
     }
 
 

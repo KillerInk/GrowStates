@@ -35,6 +35,11 @@ public class EspFanControllerAsyncRestClientImpl implements EspFanControllerAsyn
     }
 
     @Override
+    public void setLightLimitsPercent(int min, int max, ApiCallBack<ResponseBody> callBack) {
+      apiService.setLightLimitsPercent(min,max).enqueue(new ApiCallBackAdapter<>(callBack));
+    }
+
+    @Override
     public void setFanAutoTargetValues(int temp, int hum, int speeddif, ApiCallBack<ResponseBody> callBack) {
         apiService.setFanAutoTargetValues(temp,hum,speeddif).enqueue(new ApiCallBackAdapter<>(callBack));
     }
@@ -97,5 +102,10 @@ public class EspFanControllerAsyncRestClientImpl implements EspFanControllerAsyn
     {
         //Log.i(TAG,"createWebSocket ws://"+url);
         return new MySocket(ServiceGenerator.getSharedClient(),"ws://"+url);
+    }
+
+    @Override
+    public void getCSVData(String year, String month, String day, String hour, ApiCallBack<ResponseBody> callBack) {
+        apiService.getCSVData(year,month,day,hour).enqueue(new ApiCallBackAdapter<>(callBack));
     }
 }

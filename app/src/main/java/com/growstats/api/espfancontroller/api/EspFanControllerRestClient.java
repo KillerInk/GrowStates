@@ -1,5 +1,6 @@
 package com.growstats.api.espfancontroller.api;
 
+import com.growstats.api.ApiCallBack;
 import com.growstats.api.MySocket;
 import com.growstats.api.espfancontroller.objects.EspSettingsResponse;
 
@@ -9,6 +10,7 @@ public interface EspFanControllerRestClient {
     ResponseBody setFanSpeed(int speed, int id);
     ResponseBody setFanVoltage(int min,int max, int id);
     ResponseBody setLightVoltage(int min,int max);
+    ResponseBody setLightLimitsPercent(int min,int max);
     ResponseBody setFanAutoTargetValues(int temp,int hum, int speeddif);
     ResponseBody setTempHumDif(int temp,int hum);
     ResponseBody setFanAutoControl(boolean autoc);
@@ -20,4 +22,5 @@ public interface EspFanControllerRestClient {
     ResponseBody setLightTimes(int onh, int onmin, int offh, int offmin,int riseh, int risemin, int seth, int setmin, boolean riseenable, boolean setenable);
     EspSettingsResponse getSettings();
     public MySocket createWebSocket(String url);
+    ResponseBody getCSVData(String year, String month, String day, String hour);
 }

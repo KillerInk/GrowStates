@@ -4,6 +4,7 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.growstats.BR;
+import com.growstats.controller.NavigationController;
 
 public class TentItem  extends BaseObservable {
     private String temp ="";
@@ -17,6 +18,16 @@ public class TentItem  extends BaseObservable {
     private String url="";
     private String vdp="";
 
+    private NavigationController navigationController;
+
+    public void setNavigationController(NavigationController navigationController)
+    {
+        this.navigationController = navigationController;
+    }
+
+    public NavigationController getNavigationController() {
+        return navigationController;
+    }
 
     public void setUrl(String url)
     {

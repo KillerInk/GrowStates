@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         homeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        mViewModel.navigationController = navigationController;
         mViewModel.btController = btController;
         homeBinding.recylerviewPlants.setAdapter(customAdapter);
         homeBinding.recylerviewPlants.setLayoutManager(new LinearLayoutManager(getContext()));
