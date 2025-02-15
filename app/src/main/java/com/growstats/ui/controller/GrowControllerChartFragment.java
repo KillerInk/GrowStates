@@ -53,7 +53,11 @@ public class GrowControllerChartFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(GrowControllerChartViewModel.class);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_grow_controller_chart, container, false);
-        createChart(binding.chartGrowcontroller,Color.LTGRAY);
+        createChart(binding.chartGrowcontrollerTemp,Color.LTGRAY);
+        createChart(binding.chartGrowcontrollerHum,Color.LTGRAY);
+        createChart(binding.chartGrowcontrollerVpd,Color.LTGRAY);
+        createChart(binding.chartGrowcontrollerLight,Color.LTGRAY);
+        createChart(binding.chartGrowcontrollerFan,Color.LTGRAY);
         mViewModel.chartData.observe(getViewLifecycleOwner(), chartObserver);
         return binding.getRoot();
     }
@@ -65,7 +69,7 @@ public class GrowControllerChartFragment extends Fragment {
         mViewModel.onResume();
     }
 
-    private void createChart(CombinedChart chart, int color)
+    private void createChart(LineChart chart, int color)
     {
         // no description text
         chart.getDescription().setEnabled(false);
@@ -80,7 +84,7 @@ public class GrowControllerChartFragment extends Fragment {
         chart.setScaleEnabled(true);
         chart.setDrawGridBackground(false);
         chart.setHighlightPerDragEnabled(true);
-
+        //chart.setVisibleXRangeMaximum(1000);
 
         // set an alternative background color
         chart.setBackgroundColor(Color.BLACK);
@@ -112,11 +116,11 @@ public class GrowControllerChartFragment extends Fragment {
         xAxis.setDrawGridLines(true);
         xAxis.setTextColor(Color.rgb(255, 192, 56));
 
-        xAxis.setGranularity(6f); // one hour
+        xAxis.setGranularity(60f); // one hour
         xAxis.setGranularityEnabled(true);
-        xAxis.setLabelCount(5,true);
+        xAxis.setLabelCount(4,true);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
-            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM HH:mm", Locale.ENGLISH);
+            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd-MM HH:mm:ss", Locale.ENGLISH);
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 return mFormat.format(new Date((long) value));
@@ -148,11 +152,22 @@ public class GrowControllerChartFragment extends Fragment {
         chart.setMarker(chartMarkerView);
     }
 
-    final Observer<CombinedData> chartObserver = new Observer<CombinedData>() {
+    final Observer<LineData> chartObserver = new Observer<LineData>() {
         @Override
-        public void onChanged(CombinedData combinedChart) {
-            binding.chartGrowcontroller.setData(combinedChart);
-            binding.chartGrowcontroller.invalidate();
+        public void onChanged(LineData combinedChart) {
+
+            if(combinedChart == null || combinedChart.getDataSets() == null)
+                return;
+            binding.chartGrowcontrollerTemp.setData(new LineData(combinedChart.getDataSets().get(0)));
+            binding.chartGrowcontrollerHum.setData(new LineData(combinedChart.getDataSets().get(1)));
+            binding.chartGrowcontrollerFan.setData(new LineData(combinedChart.getDataSets().get(2)));
+            binding.chartGrowcontrollerLight.setData(new LineData(combinedChart.getDataSets().get(4)));
+            binding.chartGrowcontrollerVpd.setData(new LineData(combinedChart.getDataSets().get(5)));
+            binding.chartGrowcontrollerTemp.invalidate();
+            binding.chartGrowcontrollerHum.invalidate();
+            binding.chartGrowcontrollerLight.invalidate();
+            binding.chartGrowcontrollerVpd.invalidate();
+            binding.chartGrowcontrollerFan.invalidate();
         }
     };
 

@@ -117,5 +117,10 @@ public class EspFanControllerServiceDiscover {
         nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
     }
 
+    public void stopDiscover()
+    {
+        nsdManager.stopServiceDiscovery(discoveryListener);
+        multicastLock.release();
+    }
 
 }

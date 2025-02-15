@@ -14,6 +14,7 @@
         android:id="@+id/tentlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#656565"
         android:clickable="true">
 
         <LinearLayout
@@ -144,8 +145,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            app:srcCompat="@android:drawable/ic_menu_sort_by_size"
-            android:onClick="@{()->tent.getNavigationController().showGrowControllerChart()}"/>
+            android:onClick="@{()->tent.getNavigationController().showGrowControllerChart()}"
+            app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
     </LinearLayout>
 </layout>

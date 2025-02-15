@@ -26,11 +26,22 @@ public class EspSocketController extends MySocketListner {
     public interface Event
     {
         void onNewTent(TentItem tentItem);
+        void onNewData(float temp, float hum, int fanspeed, int light, float vpd);
     }
 
     private MySocket webSocket;
     private Event eventListner;
     String url;
+
+    public void setEventListner(Event listner)
+    {
+        this.eventListner = listner;
+    }
+
+    public boolean connected()
+    {
+        return webSocket != null && webSocket.isOpen();
+    }
 
     public void connect(MySocket socket, Event event,String url)
     {
@@ -82,15 +93,26 @@ public class EspSocketController extends MySocketListner {
             TentItem tentItem = new TentItem();
             String temp ="";
             String hum ="";
+            float tempret = 0;
+            float humret = 0;
+            int lightret =0;
+            int fanspeedret = 0;
+            float vpdret = 0;
             if(response.has("bme280")) {
-                if (response.getJSONObject("bme280").has("temperatur"))
+                if (response.getJSONObject("bme280").has("temperatur")) {
                     temp = response.getJSONObject("bme280").getString("temperatur") + "°C";
-                if (response.getJSONObject("bme280").has("humidity"))
+                }
+                if (response.getJSONObject("bme280").has("humidity")) {
                     hum = response.getJSONObject("bme280").getString("humidity") + "%";
-                if (response.getJSONObject("bme280").has("atemperatur"))
+                }
+                if (response.getJSONObject("bme280").has("atemperatur")) {
                     temp += " A:" + response.getJSONObject("bme280").getString("atemperatur") + "°C";
-                if (response.getJSONObject("bme280").has("ahumidity"))
+                    tempret = (float) response.getJSONObject("bme280").getDouble("atemperatur");
+                }
+                if (response.getJSONObject("bme280").has("ahumidity")) {
                     hum += " A:" + response.getJSONObject("bme280").getString("ahumidity") + "%";
+                    humret = (float) response.getJSONObject("bme280").getDouble("ahumidity");
+                }
                 tentItem.setHum(hum);
                 tentItem.setTemp(temp);
             }
@@ -116,16 +138,26 @@ public class EspSocketController extends MySocketListner {
                 tentItem.setFan0speed(response.getString("voltage0") +"mv");
             if(response.has("voltage1"))
                 tentItem.setFan1speed(response.getString("voltage1") +"mv");
-            if(response.has("lightvalP"))
-                tentItem.setLightp(response.getString("lightvalP") +"%");
-            if(response.has("lightvalmv"))
-                tentItem.setLightmv(response.getString("lightvalmv") +"mv");
-            if(response.has("vpdair"))
-                tentItem.setVdp(response.getString("vpdair") +"kPa");
+            if(response.has("lightvalP")) {
+                tentItem.setLightp(response.getString("lightvalP") + "%");
+
+            }
+            if(response.has("autocontrolspeed"))
+                fanspeedret = response.getInt("autocontrolspeed");
+            if(response.has("lightvalmv")) {
+                tentItem.setLightmv(response.getString("lightvalmv") + "mv");
+                lightret = response.getInt("lightvalmv");
+            }
+            if(response.has("vpdair")) {
+                tentItem.setVdp(response.getString("vpdair") + "kPa");
+                vpdret = (float) response.getDouble("vpdair");
+            }
             tentItem.setUrl(url);
 
-            if(eventListner != null)
+            if(eventListner != null) {
                 eventListner.onNewTent(tentItem);
+                eventListner.onNewData(tempret,humret,fanspeedret,lightret,vpdret);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

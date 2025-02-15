@@ -4,13 +4,41 @@
     <data>
 
     </data>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <com.github.mikephil.charting.charts.CombinedChart
-        android:id="@+id/chart_growcontroller"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart_growcontroller_temp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart_growcontroller_hum"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart_growcontroller_light"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart_growcontroller_fan"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart_growcontroller_vpd"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+        </LinearLayout>
+    </ScrollView>
+
 </layout>

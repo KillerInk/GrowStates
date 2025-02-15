@@ -61,7 +61,7 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
         }
         if(!found) {
             tents.add(tentItem);
-            notifyItemInserted(tents.size()+plants.size());
+            notifyDataSetChanged();
         }
     }
 
@@ -94,9 +94,10 @@ public class HomeCustomAdapter  extends RecyclerView.Adapter<HomeCustomAdapter.V
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(tents.size() > 0 && position <= tents.size()-1)
+        if(tents.size() > 0 && position <=  tents.size()-1)
         {
             ((ViewHolderTent)holder).getTentBinding().setTent(tents.get(position));
+            ((ViewHolderTent)holder).getTentBinding().executePendingBindings();
         }
         else {
             ((ViewHolderPlant)holder).getPlantBinding().setPlant(plants.get(position-tents.size()));

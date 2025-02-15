@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.growstats.controller.BtController;
+import com.growstats.controller.EspSocketController;
 import com.growstats.controller.NavigationController;
 import com.growstats.databinding.ActivityMainBinding;
 
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     NavigationController navigationController;
     @Inject BtController btController;
+    @Inject
+    EspSocketController espSocketController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         navigationController.show(NavigationController.NavView.home);
     }
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        espSocketController.close();
+    }
 }

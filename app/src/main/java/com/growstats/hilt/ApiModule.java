@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.growstats.controller.BtController;
 import com.growstats.controller.EspFanController;
+import com.growstats.controller.EspSocketController;
 import com.growstats.controller.FytaController;
 import com.growstats.ui.home.HomeCustomAdapter;
 
@@ -49,6 +50,13 @@ public class ApiModule {
     public static File getAppCache(@ActivityContext Context context)
     {
         return context.getCacheDir();
+    }
+
+    @Provides
+    @Singleton
+    public static EspSocketController getEspSocketController()
+    {
+        return new EspSocketController();
     }
 
 }

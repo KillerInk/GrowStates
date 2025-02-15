@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
+import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.ViewModel;
 
 import com.growstats.api.ApiCallBack;
@@ -34,7 +35,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
-public class HomeViewModel extends ViewModel implements LiveButtonClick, BtController.Events, BtClient.Events, EspSocketController.Event {
+public class HomeViewModel extends ViewModel implements LiveButtonClick, BtController.Events, BtClient.Events, EspSocketController.Event{
 
     private final String TAG = HomeViewModel.class.getName();
     @Override
@@ -53,16 +54,16 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
     public BtController btController;
     EspFanControllerServiceDiscover espFanControllerServiceDiscover;
     EspFanController espFanController;
-    EspSocketController socketController;
+    private EspSocketController socketController;
     public NavigationController navigationController;
 
     @Inject
-    public HomeViewModel(FytaController fytaController, Settings settings, HomeCustomAdapter homeCustomAdapter, EspFanController espFanController) {
+    public HomeViewModel(FytaController fytaController, Settings settings, HomeCustomAdapter homeCustomAdapter, EspFanController espFanController,EspSocketController socketController) {
         this.fytaController = fytaController;
         this.settings = settings;
         this.homeCustomAdapter = homeCustomAdapter;
         this.espFanController = espFanController;
-        socketController = new EspSocketController();
+        this.socketController = socketController;
     }
 
 
@@ -71,7 +72,10 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
         espFanControllerServiceDiscover = new EspFanControllerServiceDiscover(btController.getContext());
         espFanControllerServiceDiscover.serviceEvent = url -> {
             espFanController.createApi(url);
-            socketController.connect(espFanController.getAsyncRestClient().createWebSocket(url.replace("http://","")+"/ws"),this::onNewTent,url);
+            if(!socketController.connected())
+                socketController.connect(espFanController.getAsyncRestClient().createWebSocket(url.replace("http://","")+"/ws"),this,url);
+            else
+                socketController.setEventListner(this);
         };
         espFanControllerServiceDiscover.initializeDiscoveryListener();
         final String k = settings.getSetting(Settings.KEY_APIKEY);
@@ -113,8 +117,7 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
 
     public void onPause()
     {
-        if(socketController != null)
-            socketController.close();
+        espFanControllerServiceDiscover.stopDiscover();
     }
 
     @Override
@@ -172,6 +175,11 @@ public class HomeViewModel extends ViewModel implements LiveButtonClick, BtContr
                 homeCustomAdapter.addTent(tentItem);
             }
         });
+
+    }
+
+    @Override
+    public void onNewData(float temp, float hum, int fanspeed, int light, float vpd) {
 
     }
 }
